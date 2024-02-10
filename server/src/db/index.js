@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { DB_NANE } from '../constant';
+import { DB_NANE } from '../constant.js';
 
 mongoose.set("strictQuery",false)
 
