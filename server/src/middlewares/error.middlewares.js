@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-import { ApiErrror } from "../utils/ApiError.js"
+import { ApiError } from "../utils/ApiError.js"
 
 const errorHandler=(err,req,res,next)=>{
     let error=err
