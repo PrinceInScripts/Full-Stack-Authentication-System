@@ -10,7 +10,7 @@ const sendEmail=async (options)=>{
         }
     })
 
-    const emailTextual=mailGenerator.generatePlaintext(options.mailgenContent)
+    const emailTextual= mailGenerator.generatePlaintext(options.mailgenContent)
 
     const emailHTML=mailGenerator.generate(options.mailgenContent)
 
@@ -24,8 +24,8 @@ const sendEmail=async (options)=>{
     })
 
     const mail={
-        from:process.env.SMTP_FROM,
-        to:options.userEmail,
+        from:process.env.SMTP_FROM_EMAIL,
+        to:options.email,
         subject:options.subject,
         text:emailTextual,
         html:emailHTML
@@ -44,7 +44,7 @@ const emailVerificationMailgenContent=async (username,verificationUrl)=>{
           body:{
             name:username,
             intro: "Welcome to Our App! We're very excited to have you on board.",
-            actions:{
+            action:{
                 instruction:"To verify your email please click on the following button : ",
                 button:{
                     color:"#22BC66",
@@ -62,7 +62,7 @@ const forgotPasswordMailgenContent=async (username, resetUrl)=>{
     body:{
         name:username,
         intro: "we have requested to reset your password.",
-        actions:{
+        action:{
             instruction:"To reset your password please click on the following button : ",
             button:{
                 color: "#22BC66",

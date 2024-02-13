@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import crypto from "crypto";
 import jwt from "jsonwebtoken"
 import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
-import { USER_TEMPORARY_TOKEN_EXPIRY, userLoginType, userRolesEnum } from "../constant";
+import { USER_TEMPORARY_TOKEN_EXPIRY, userLoginType, userRolesEnum } from "../constant.js";
 
 const userSchema = new Schema({
            username:{
