@@ -4,38 +4,22 @@ import { ApiError } from "../utils/ApiError.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
 import { userLoginType, userRolesEnum } from "../constant.js"
 import { emailVerificationMailgenContent, sendEmail } from "../utils/Mail.js"
-
-// const generateAccessAndRefreshToken=async (userId)=>{
-//     try {
-//         const user=await User.findById(userId)
-
-//         const accessToken=await generateAccessToken()
-//         const refreshToken=await generateRefreshToken()
-
-//         user.refreshToken=refreshToken
-//         await user.save({validateBeforeSave:false})
-
-//         return {accessToken,refreshToken}
-//     } catch (error) {
-//         throw new ApiError(500,"Something went wrong while generating the access token")
-//     }
-// }
+import crypto from "crypto"
 
 const generateAccessAndRefreshToken=async (userId)=>{
     try {
         const user=await User.findById(userId)
-    
-        const accessToken=await user.generateAccessToken()
-        const refreshToken=await user.generateRefreshToken()
-    
+
+        const accessToken=await generateAccessToken()
+        const refreshToken=await generateRefreshToken()
+
         user.refreshToken=refreshToken
         await user.save({validateBeforeSave:false})
-    
+
         return {accessToken,refreshToken}
     } catch (error) {
-        throw new ApiError(401,"access and refresh token is not created")
+        throw new ApiError(500,"Something went wrong while generating the access token")
     }
-
 }
 
 const userRegistration=AsyncHandler (async (req,res)=>{
@@ -78,7 +62,7 @@ const userRegistration=AsyncHandler (async (req,res)=>{
     });
 
     const createUser=await User.findById(user._id).select(
-        "-password -refreshToken -emailVerificationToken -emailVerificationExpiry"
+        "-password -refreshToken -emailVerificationToken -emailVerificationTokenExpiry"
     )
 
     if(!createUser){
@@ -183,8 +167,50 @@ const logoutUser=AsyncHandler(async (req,res)=>{
             )
 })
 
+const verifyEmail=AsyncHandler(async (req,res)=>{
+      const {verificationToken}=req.params;
+
+      if(!verificationToken){
+        throw new ApiError(401,"email verification token is missing")
+      }
+
+     let hashedToken=crypto
+                           .createHash("sha256")
+                           .update(verificationToken)
+                           .digest("hex")
+
+     const user=await User.findOne({
+        emailVerificationToken:hashedToken,
+        emailVerificationTokenExpiry:{$gt:Date.now()}
+     })
+
+     if(!user){
+        throw new ApiError(400,"Token is invalid and expired")
+     }
+
+     user.emailVerificationToken=undefined
+     user.emailVerificationTokenExpiry=undefined
+
+     user.isEmailVerified=true;
+
+     await user.save({validateBeforeSave:true})
+
+     return res
+               .status(200)
+               .json(
+                new ApiResponse(
+                    200,
+                    {isEmailVerified:true},
+                    "Email verified successfully"
+                )
+               )
+})
+
+
+
 export {
     userRegistration,
     logInUser,
-    logoutUser
+    logoutUser,
+    verifyEmail
 }
