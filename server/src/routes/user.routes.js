@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { logInUser, logoutUser, userRegistration, verifyEmail } from "../controllers/user.controller.js";
+import { logInUser, logoutUser, resendEmailVerification, userRegistration, verifyEmail } from "../controllers/user.controller.js";
 import { loginUserValidator, userRegisterValidators } from "../validators/user.validators.js"
 import { validate } from "../validators/validate.js"
 import { verifyJWT } from "../middlewares/auth.middlewares.js";
@@ -12,5 +12,7 @@ router.route("/verify-email/:verificationToken").get(verifyEmail)
 
 
 router.route("/logout").post(verifyJWT,logoutUser)
+router.route("/resend-email-verification").post(verifyJWT,resendEmailVerification)
+
 
 export default router;

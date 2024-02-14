@@ -10,8 +10,8 @@ const generateAccessAndRefreshToken=async (userId)=>{
     try {
         const user=await User.findById(userId)
 
-        const accessToken=await generateAccessToken()
-        const refreshToken=await generateRefreshToken()
+        const accessToken=user.generateAccessToken()
+        const refreshToken=user.generateRefreshToken()
 
         user.refreshToken=refreshToken
         await user.save({validateBeforeSave:false})
@@ -178,7 +178,7 @@ const verifyEmail=AsyncHandler(async (req,res)=>{
                            .createHash("sha256")
                            .update(verificationToken)
                            .digest("hex")
-
+   
      const user=await User.findOne({
         emailVerificationToken:hashedToken,
         emailVerificationTokenExpiry:{$gt:Date.now()}
@@ -193,7 +193,7 @@ const verifyEmail=AsyncHandler(async (req,res)=>{
 
      user.isEmailVerified=true;
 
-     await user.save({validateBeforeSave:true})
+     await user.save({validateBeforeSave:false})
 
      return res
                .status(200)
@@ -206,11 +206,47 @@ const verifyEmail=AsyncHandler(async (req,res)=>{
                )
 })
 
+const resendEmailVerification=AsyncHandler(async (req,res)=>{
+    const user=await User.findById(req.user._id)
 
+    if(!user){
+        throw new ApiError(404,"User does not exist")
+    }
+
+    const {unhashedToken,hashedToken,tokenExpiry}=user.generateTemporaryToken()
+
+    user.emailVerificationToken=hashedToken;
+    user.emailVerificationTokenExpiry=tokenExpiry
+
+    await user.save({validateBeforeSave:false})
+
+    const mailgenContent=await emailVerificationMailgenContent(
+        user?.username,
+        `${req.protocol}://${req.get("host")}/api/v1/users/verify-email/${unhashedToken}`
+    )
+
+    await sendEmail({
+        email:user?.email,
+        subject:"Please verify your email",
+        mailgenContent
+    })
+
+    return res
+             .status(200)
+             .json(
+                new ApiResponse(
+                    200,
+                    {},
+                    "Mail has been sent to your mail ID"
+                )
+             )
+
+})
 
 export {
     userRegistration,
     logInUser,
     logoutUser,
-    verifyEmail
+    verifyEmail,
+    resendEmailVerification
 }
