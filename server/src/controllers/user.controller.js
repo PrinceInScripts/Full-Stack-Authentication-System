@@ -303,6 +303,7 @@ const forgotPassword=AsyncHandler(async (req,res)=>{
 
     user.forgotPasswordToken=hashedToken;
     user.forgotPasswordTokenExpiry=tokenExpiry
+    await user.save({validateBeforeSave:false})
     
     const mailgenContent=await forgotPasswordMailgenContent(
         user?.username,
@@ -328,6 +329,38 @@ const forgotPassword=AsyncHandler(async (req,res)=>{
              )
 })
 
+const resetForgotPassword=AsyncHandler(async (req,res)=>{
+    const {resetPasswordToken}=req.params;
+    const {newPassword}=req.body
+
+    let hashedToken=crypto
+                         .createHash("sha256")
+                         .update(resetPasswordToken)
+                         .digest("hex")
+
+    const user=await User.findOne({
+        forgotPasswordToken:hashedToken,
+        forgotPasswordTokenExpiry:{$gt:Date.now()}
+    })
+
+    if(!user){
+        throw new ApiError(401,"ResetPasswordToken is invalid or expired")
+    }
+
+    user.password=newPassword;
+    await user.save({validateBeforeSave:false})
+
+    return res
+             .status(200)
+             .json(
+               new ApiResponse(
+                200,
+                {},
+                "Password reset successfully"
+               )
+             )
+})
+
 export {
   userRegistration,
   logInUser,
@@ -335,5 +368,6 @@ export {
   verifyEmail,
   resendEmailVerification,
   refreshAccessToken,
-  forgotPassword
+  forgotPassword,
+  resetForgotPassword
 };
