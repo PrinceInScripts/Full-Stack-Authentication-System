@@ -401,6 +401,18 @@ const assignRole=AsyncHandler(async (req,res)=>{
             )
 })
 
+const getCurrentUser=AsyncHandler(async (req,res)=>{
+  return res 
+           .status(200)
+           .json(
+            new ApiResponse(
+              200,
+              req.user,
+              "Current User detials fetched Successfully"
+            )
+           )
+})
+
 export {
   userRegistration,
   logInUser,
@@ -411,5 +423,6 @@ export {
   forgotPassword,
   resetForgotPassword,
   changeCurrentPassword,
-  assignRole
+  assignRole,
+  getCurrentUser
 };
