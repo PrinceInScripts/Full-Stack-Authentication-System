@@ -79,10 +79,20 @@ const userChangeCurrentPasswordValidator = () => {
     ];
   };
 
+const userAssignRoleValidator = () => {
+    return [
+      body("role")
+        .optional()
+        .isIn(AvailableUserROles)
+        .withMessage("Invalid user role"),
+    ];
+ };
+
 export {
     userRegisterValidators,
     loginUserValidator,
     userForgotPasswordValidator,
     resetForgotPasswordValidator,
-    userChangeCurrentPasswordValidator
+    userChangeCurrentPasswordValidator,
+    userAssignRoleValidator
 }

@@ -1,8 +1,10 @@
 import { Router } from "express";
-import { changeCurrentPassword, forgotPassword, logInUser, logoutUser, refreshAccessToken, resendEmailVerification, resetForgotPassword, userRegistration, verifyEmail } from "../controllers/user.controller.js";
-import { loginUserValidator, resetForgotPasswordValidator, userChangeCurrentPasswordValidator, userForgotPasswordValidator, userRegisterValidators } from "../validators/user.validators.js"
+import { assignRole, changeCurrentPassword, forgotPassword, logInUser, logoutUser, refreshAccessToken, resendEmailVerification, resetForgotPassword, userRegistration, verifyEmail } from "../controllers/user.controller.js";
+import { loginUserValidator, resetForgotPasswordValidator, userAssignRoleValidator, userChangeCurrentPasswordValidator, userForgotPasswordValidator, userRegisterValidators } from "../validators/user.validators.js"
 import { validate } from "../validators/validate.js"
-import { verifyJWT } from "../middlewares/auth.middlewares.js";
+import { verifyJWT, verifyPermission } from "../middlewares/auth.middlewares.js";
+import { userRolesEnum } from "../constant.js";
+import { mongoIdPathVariableValidator } from "../validators/mongoose.validators.js";
 
 const router=Router();
 
@@ -18,6 +20,7 @@ router.route("/logout").post(verifyJWT,logoutUser)
 router.route("/resend-email-verification").post(verifyJWT,resendEmailVerification)
 
 router.route("/change-password").post(verifyJWT,userChangeCurrentPasswordValidator(),validate,changeCurrentPassword)
-
+router.route("/assign-role/admin/:userId").post(verifyJWT,verifyPermission([userRolesEnum.ADMIN]),mongoIdPathVariableValidator("userId"),userAssignRoleValidator(),validate,assignRole)
+router.route("/assign-role/super-admin/:userId").post(verifyJWT,verifyPermission([userRolesEnum.SUPER_ADMIN]),mongoIdPathVariableValidator("userId"),userAssignRoleValidator(),validate,assignRole)
 
 export default router;

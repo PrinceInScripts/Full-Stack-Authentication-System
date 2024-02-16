@@ -30,7 +30,7 @@ export const verifyJWT=AsyncHandler(async (req,res,next)=>{
       }
 })
 
-export const verifyPermission= (roles=[])=>{
+export const verifyPermission= (roles=[])=>
     AsyncHandler(async (req,res,next)=>{
       if(!req.user?._id){
          throw new ApiError(401,"Unathorized request")
@@ -42,4 +42,3 @@ export const verifyPermission= (roles=[])=>{
          throw new ApiError(403,"You are not allowed to perform these action")
       }
     })
-}
