@@ -10,6 +10,7 @@ import {
 } from "../utils/Mail.js";
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
+import { uploadCloudinary } from "../utils/cloudniary.js";
 
 const generateAccessAndRefreshToken = async (userId) => {
   try {
@@ -411,6 +412,41 @@ const getCurrentUser = AsyncHandler(async (req, res) => {
     );
 });
 
+const updateUserAvatar=AsyncHandler(async (req,res)=>{
+  const avatarLocalPath=req.file?.path;
+
+  if(!avatarLocalPath){
+    throw new ApiError(400,"Avatar file is missing")
+  }
+
+  const avatar=await uploadCloudinary(avatarLocalPath)
+
+  if(!avatar){
+    throw new ApiError(400,"Error while uploading on avatar file")
+  }
+
+  const user=await User.findByIdAndUpdate(
+       req.user?._id,
+       {
+        $set:{
+          avatar:avatar?.url
+        }
+       },
+       {new:true}
+  ).select("-password -refreshToken -emailVerificationToken -emailVerificationExpiry -forgotPasswordToken -forgotPasswordTokenExpiry")
+
+ return res
+          .status(200)
+          .json(
+            new ApiResponse(
+              200,
+              user,
+              "Avatar update successfully"
+            )
+          )
+
+})
+
 const addUserByAdmin = AsyncHandler(async (req, res) => {
   const { email, username, password, role } = req.body;
 
@@ -481,5 +517,6 @@ export {
   assignRole,
   getCurrentUser,
   addUserByAdmin,
-  deleteUserByAdmin
+  deleteUserByAdmin,
+  updateUserAvatar
 };

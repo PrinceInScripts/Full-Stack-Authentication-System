@@ -1,10 +1,11 @@
 import { Router } from "express";
-import { addUserByAdmin, assignRole, changeCurrentPassword, deleteUserByAdmin, forgotPassword, getCurrentUser, logInUser, logoutUser, refreshAccessToken, resendEmailVerification, resetForgotPassword, userRegistration, verifyEmail } from "../controllers/user.controller.js";
+import { addUserByAdmin, assignRole, changeCurrentPassword, deleteUserByAdmin, forgotPassword, getCurrentUser, logInUser, logoutUser, refreshAccessToken, resendEmailVerification, resetForgotPassword, updateUserAvatar, userRegistration, verifyEmail } from "../controllers/user.controller.js";
 import { addUserViaAdminValidator, loginUserValidator, resetForgotPasswordValidator, userAssignRoleValidator, userChangeCurrentPasswordValidator, userForgotPasswordValidator, userRegisterValidators } from "../validators/user.validators.js"
 import { validate } from "../validators/validate.js"
 import { verifyJWT, verifyPermission } from "../middlewares/auth.middlewares.js";
 import { userRolesEnum } from "../constant.js";
 import { mongoIdPathVariableValidator } from "../validators/mongoose.validators.js";
+import { upload } from "../middlewares/multer.middlewares.js";
 
 const router=Router();
 
@@ -21,6 +22,7 @@ router.route("/resend-email-verification").post(verifyJWT,resendEmailVerificatio
 
 router.route("/change-password").post(verifyJWT,userChangeCurrentPasswordValidator(),validate,changeCurrentPassword)
 router.route("/current-user").get(verifyJWT,getCurrentUser)
+router.route("/avatar").post(verifyJWT,upload.single('avatar'),updateUserAvatar)
 router.route("/admin/assign-role/:userId").post(verifyJWT,verifyPermission([userRolesEnum.ADMIN]),mongoIdPathVariableValidator("userId"),userAssignRoleValidator(),validate,assignRole)
 router.route("/super-admin/assign-role/:userId").post(verifyJWT,verifyPermission([userRolesEnum.SUPER_ADMIN]),mongoIdPathVariableValidator("userId"),userAssignRoleValidator(),validate,assignRole)
 router.route("/super-admin/add-user").post(verifyJWT,verifyPermission([userRolesEnum.SUPER_ADMIN]),addUserViaAdminValidator(),validate,addUserByAdmin)
