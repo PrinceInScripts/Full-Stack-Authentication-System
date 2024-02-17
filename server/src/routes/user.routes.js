@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { assignRole, changeCurrentPassword, forgotPassword, getCurrentUser, logInUser, logoutUser, refreshAccessToken, resendEmailVerification, resetForgotPassword, userRegistration, verifyEmail } from "../controllers/user.controller.js";
-import { loginUserValidator, resetForgotPasswordValidator, userAssignRoleValidator, userChangeCurrentPasswordValidator, userForgotPasswordValidator, userRegisterValidators } from "../validators/user.validators.js"
+import { addUserByAdmin, assignRole, changeCurrentPassword, forgotPassword, getCurrentUser, logInUser, logoutUser, refreshAccessToken, resendEmailVerification, resetForgotPassword, userRegistration, verifyEmail } from "../controllers/user.controller.js";
+import { addUserViaAdminValidator, loginUserValidator, resetForgotPasswordValidator, userAssignRoleValidator, userChangeCurrentPasswordValidator, userForgotPasswordValidator, userRegisterValidators } from "../validators/user.validators.js"
 import { validate } from "../validators/validate.js"
 import { verifyJWT, verifyPermission } from "../middlewares/auth.middlewares.js";
 import { userRolesEnum } from "../constant.js";
@@ -21,7 +21,8 @@ router.route("/resend-email-verification").post(verifyJWT,resendEmailVerificatio
 
 router.route("/change-password").post(verifyJWT,userChangeCurrentPasswordValidator(),validate,changeCurrentPassword)
 router.route("/current-user").get(verifyJWT,getCurrentUser)
-router.route("/assign-role/admin/:userId").post(verifyJWT,verifyPermission([userRolesEnum.ADMIN]),mongoIdPathVariableValidator("userId"),userAssignRoleValidator(),validate,assignRole)
-router.route("/assign-role/super-admin/:userId").post(verifyJWT,verifyPermission([userRolesEnum.SUPER_ADMIN]),mongoIdPathVariableValidator("userId"),userAssignRoleValidator(),validate,assignRole)
+router.route("/admin/assign-role/:userId").post(verifyJWT,verifyPermission([userRolesEnum.ADMIN]),mongoIdPathVariableValidator("userId"),userAssignRoleValidator(),validate,assignRole)
+router.route("/super-admin/assign-role/:userId").post(verifyJWT,verifyPermission([userRolesEnum.SUPER_ADMIN]),mongoIdPathVariableValidator("userId"),userAssignRoleValidator(),validate,assignRole)
+router.route("/super-admin/add-user").post(verifyJWT,verifyPermission([userRolesEnum.SUPER_ADMIN]),addUserViaAdminValidator(),validate,addUserByAdmin)
 
 export default router;
