@@ -348,6 +348,8 @@ const resetForgotPassword=AsyncHandler(async (req,res)=>{
     }
 
     user.password=newPassword;
+    user.forgotPasswordToken=undefined;
+    user.forgotPasswordTokenExpiry=undefined
     await user.save({validateBeforeSave:false})
 
     return res
