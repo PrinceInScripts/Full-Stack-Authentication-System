@@ -547,6 +547,29 @@ const getAllUser=AsyncHandler(async (req,res)=>{
               )
 })
 
+const handleSocialLogin=AsyncHandler(async (req,res)=>{
+  const user=await User.findById(req.user?._id)
+
+  if(!user){
+    throw new ApiError(400,"User does not exists")
+  }
+
+  const {accessToken,refreshToken}=await generateAccessAndRefreshToken(user._id)
+
+  const options={
+    httpOnly:true,
+    secure:true
+  }
+
+  return res 
+           .status(301)
+           .cookie("accessToken",accessToken,options)
+           .cookie("refreshToken",refreshToken)
+           .redirect(
+            `${process.env.CLIENT_SSO_REDIRECT_URL}?accessToken=${accessToken}&refreshToken=${refreshToken}`
+           )
+})
+
 export {
   userRegistration,
   logInUser,
@@ -563,5 +586,6 @@ export {
   deleteUserByAdmin,
   updateUserAvatar,
   updateProfile,
-  getAllUser
+  getAllUser,
+  handleSocialLogin
 };

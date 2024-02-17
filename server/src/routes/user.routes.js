@@ -1,11 +1,13 @@
 import { Router } from "express";
-import { addUserByAdmin, assignRole, changeCurrentPassword, deleteUserByAdmin, forgotPassword, getAllUser, getCurrentUser, logInUser, logoutUser, refreshAccessToken, resendEmailVerification, resetForgotPassword, updateProfile, updateUserAvatar, userRegistration, verifyEmail } from "../controllers/user.controller.js";
+import passport from "passport";
+import { addUserByAdmin, assignRole, changeCurrentPassword, deleteUserByAdmin, forgotPassword, getAllUser, getCurrentUser, handleSocialLogin, logInUser, logoutUser, refreshAccessToken, resendEmailVerification, resetForgotPassword, updateProfile, updateUserAvatar, userRegistration, verifyEmail } from "../controllers/user.controller.js";
 import { addUserViaAdminValidator, loginUserValidator, resetForgotPasswordValidator, udpateProfileValidator, userAssignRoleValidator, userChangeCurrentPasswordValidator, userForgotPasswordValidator, userRegisterValidators } from "../validators/user.validators.js"
 import { validate } from "../validators/validate.js"
 import { verifyJWT, verifyPermission } from "../middlewares/auth.middlewares.js";
 import { userRolesEnum } from "../constant.js";
 import { mongoIdPathVariableValidator } from "../validators/mongoose.validators.js";
 import { upload } from "../middlewares/multer.middlewares.js";
+import "../passport/index.js"
 
 const router=Router();
 
@@ -29,4 +31,23 @@ router.route("/super-admin/assign-role/:userId").post(verifyJWT,verifyPermission
 router.route("/super-admin/add-user").post(verifyJWT,verifyPermission([userRolesEnum.SUPER_ADMIN]),addUserViaAdminValidator(),validate,addUserByAdmin)
 router.route("/super-admin/delete-user/:userId").delete(verifyJWT,verifyPermission([userRolesEnum.SUPER_ADMIN]),deleteUserByAdmin)
 router.route("/all-user").get(verifyJWT,verifyPermission([userRolesEnum.SUPER_ADMIN,userRolesEnum.ADMIN,userRolesEnum.MANAGER]),getAllUser)
+
+
+router.route("/google").get(
+    passport.authenticate('google',{scope:["profile","email"]}),
+    (req,res)=>res.send("redirecting to google.....")
+)
+router.route("/github").get(
+    passport.authenticate('github',{scope:["profile","email"]}),
+    (req,res)=>res.send("redirecting to github.....")
+)
+
+router
+  .route("/google/callback")
+  .get(passport.authenticate("google"), handleSocialLogin);
+
+router
+  .route("/github/callback")
+  .get(passport.authenticate("github"), handleSocialLogin);
+
 export default router;
