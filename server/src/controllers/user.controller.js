@@ -447,6 +447,35 @@ const updateUserAvatar=AsyncHandler(async (req,res)=>{
 
 })
 
+const updateProfile=AsyncHandler(async (req,res)=>{
+    const {firstName,lastName,username}=req.body
+
+    const user=await User.findById(req.user._id)
+
+    const updateUser=await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        $set:{
+          firstName,
+          lastName,
+          username:username || user.username
+        }
+      },
+      {new:true}
+    ).select("-password -refreshToken -emailVerificationToken -emailVerificationExpiry -forgotPasswordToken -forgotPasswordTokenExpiry")
+
+    return res
+              .status(200)
+              .json(
+                new ApiResponse(
+                  200,
+                  updateUser,
+                  "profile updated successfully"
+                )
+              )
+
+})
+
 const addUserByAdmin = AsyncHandler(async (req, res) => {
   const { email, username, password, role } = req.body;
 
@@ -518,5 +547,6 @@ export {
   getCurrentUser,
   addUserByAdmin,
   deleteUserByAdmin,
-  updateUserAvatar
+  updateUserAvatar,
+  updateProfile
 };

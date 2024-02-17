@@ -115,6 +115,28 @@ const addUserViaAdminValidator=()=>{
     ]
 }
 
+const udpateProfileValidator=()=>{
+    return [
+        body("firstName")
+                       .trim()
+                       .notEmpty()
+                       .withMessage("firstName is required"),
+        body("lastName")
+                       .trim()
+                       .notEmpty()
+                       .withMessage("LastName is required"),
+        body("username")
+                       .optional()
+                       .trim()
+                       .notEmpty()
+                       .withMessage("Username is required")
+                       .isLowercase()
+                       .withMessage("Username must be lowercase")
+                       .isLength({min:3,max:20})
+                       .withMessage("Username must be between 3 and 20 characters"),
+    ]
+}
+
 export {
     userRegisterValidators,
     loginUserValidator,
@@ -122,5 +144,6 @@ export {
     resetForgotPasswordValidator,
     userChangeCurrentPasswordValidator,
     userAssignRoleValidator,
-    addUserViaAdminValidator
+    addUserViaAdminValidator,
+    udpateProfileValidator
 }
