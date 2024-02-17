@@ -442,9 +442,31 @@ const addUserByAdmin = AsyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, user, "User added Successfully"));
+    .json(new ApiResponse(200, newUser, "User added Successfully"));
 });
 
+
+const deleteUserByAdmin=AsyncHandler(async (req,res)=>{
+  const {userId}=req.params
+
+  const user=await User.findById(userId)
+
+  if(!user){
+    throw new ApiError(404,"User is not existed")
+  }
+
+  const deletedUser=await User.findByIdAndDelete(userId).select("-password")
+
+  return res
+           .status(200)
+           .json(
+            new ApiResponse(
+              200,
+              deletedUser,
+              "User deleted Successfully"
+            )
+           )
+})
 
 export {
   userRegistration,
@@ -459,4 +481,5 @@ export {
   assignRole,
   getCurrentUser,
   addUserByAdmin,
+  deleteUserByAdmin
 };
