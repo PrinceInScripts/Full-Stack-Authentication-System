@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addUserByAdmin, assignRole, changeCurrentPassword, deleteUserByAdmin, forgotPassword, getCurrentUser, logInUser, logoutUser, refreshAccessToken, resendEmailVerification, resetForgotPassword, updateProfile, updateUserAvatar, userRegistration, verifyEmail } from "../controllers/user.controller.js";
+import { addUserByAdmin, assignRole, changeCurrentPassword, deleteUserByAdmin, forgotPassword, getAllUser, getCurrentUser, logInUser, logoutUser, refreshAccessToken, resendEmailVerification, resetForgotPassword, updateProfile, updateUserAvatar, userRegistration, verifyEmail } from "../controllers/user.controller.js";
 import { addUserViaAdminValidator, loginUserValidator, resetForgotPasswordValidator, udpateProfileValidator, userAssignRoleValidator, userChangeCurrentPasswordValidator, userForgotPasswordValidator, userRegisterValidators } from "../validators/user.validators.js"
 import { validate } from "../validators/validate.js"
 import { verifyJWT, verifyPermission } from "../middlewares/auth.middlewares.js";
@@ -28,5 +28,5 @@ router.route("/admin/assign-role/:userId").post(verifyJWT,verifyPermission([user
 router.route("/super-admin/assign-role/:userId").post(verifyJWT,verifyPermission([userRolesEnum.SUPER_ADMIN]),mongoIdPathVariableValidator("userId"),userAssignRoleValidator(),validate,assignRole)
 router.route("/super-admin/add-user").post(verifyJWT,verifyPermission([userRolesEnum.SUPER_ADMIN]),addUserViaAdminValidator(),validate,addUserByAdmin)
 router.route("/super-admin/delete-user/:userId").delete(verifyJWT,verifyPermission([userRolesEnum.SUPER_ADMIN]),deleteUserByAdmin)
-
+router.route("/all-user").get(verifyJWT,verifyPermission([userRolesEnum.SUPER_ADMIN,userRolesEnum.ADMIN,userRolesEnum.MANAGER]),getAllUser)
 export default router;

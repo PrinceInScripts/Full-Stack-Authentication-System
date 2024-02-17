@@ -533,6 +533,20 @@ const deleteUserByAdmin=AsyncHandler(async (req,res)=>{
            )
 })
 
+const getAllUser=AsyncHandler(async (req,res)=>{
+     const allUser=await User.find()
+
+     return res 
+              .status(200)
+              .json(
+                new ApiResponse(
+                  200,
+                  allUser,
+                  "All User detials fetched successfully"
+                )
+              )
+})
+
 export {
   userRegistration,
   logInUser,
@@ -548,5 +562,6 @@ export {
   addUserByAdmin,
   deleteUserByAdmin,
   updateUserAvatar,
-  updateProfile
+  updateProfile,
+  getAllUser
 };
