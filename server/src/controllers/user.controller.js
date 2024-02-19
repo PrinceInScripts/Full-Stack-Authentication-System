@@ -11,6 +11,7 @@ import {
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import { uploadCloudinary } from "../utils/cloudniary.js";
+import { getMongoosePaginationOption } from "../utils/helpers.js"
 
 const generateAccessAndRefreshToken = async (userId) => {
   try {
@@ -534,7 +535,21 @@ const deleteUserByAdmin=AsyncHandler(async (req,res)=>{
 })
 
 const getAllUser=AsyncHandler(async (req,res)=>{
-     const allUser=await User.find()
+    const {page=1,limit=10}=req.query;
+
+    const allUserAggregate=await User.aggregate([{$match:{}}])
+
+    const allUser=await User.aggregatePaginate(
+      allUserAggregate,
+      getMongoosePaginationOption({
+        page,
+        limit,
+        customLabels:{
+          totalDocs:"totalUsers",
+          docs:"allUser"
+        }
+      })
+    )
 
      return res 
               .status(200)
