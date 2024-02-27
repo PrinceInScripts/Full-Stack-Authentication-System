@@ -28,7 +28,7 @@ function Navbar() {
   }, []);
 
   return (
-    <div className="navbar bg-base-200 border-b-2">
+    <div className="navbar bg-base-200">
       <div className="navbar-start">
         <div class="dropdown lg:hidden dropdown-bottom">
           <div id="dropdownButton" tabIndex="0" role="button" class="btn m-1">
