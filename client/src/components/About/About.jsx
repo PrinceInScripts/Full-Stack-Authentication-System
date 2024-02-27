@@ -6,6 +6,7 @@ import solution from "../../asset/solution.jpg";
 import security from "../../asset/security.jpg";
 import options from "../../asset/options.jpg";
 import Layout from "../Layout/Layout";
+import ContactForm from "../ContactForm/ContactForm";
 
 function About() {
   return (
@@ -76,6 +77,8 @@ function About() {
           </p>
         </div>
       </div>
+
+      <ContactForm/>
     </Layout>
   );
 }
