@@ -7,11 +7,12 @@ import { Route, Routes } from "react-router-dom";
 import Footer from "./components/Footer/Footer";
 import Layout from "./components/Layout/Layout";
 import Hero from "./components/Hero/Hero";
+import About from "./components/About/About";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Hero />} />
+      <Route path="/" element={<About />} />
     </Routes>
   );
 }
