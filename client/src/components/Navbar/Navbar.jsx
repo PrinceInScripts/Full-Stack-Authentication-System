@@ -46,7 +46,7 @@ function Navbar() {
             class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <Link to={"/home"}>Home</Link>
+              <Link to={"/"}>Home</Link>
             </li>
             {isLoggedIn && (
               <li>
@@ -97,7 +97,7 @@ function Navbar() {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal text-lg font-semibold px-1">
           <li>
-            <Link to={"/home"}>Home</Link>
+            <Link to={"/"}>Home</Link>
           </li>
           {isLoggedIn && (
             <li>

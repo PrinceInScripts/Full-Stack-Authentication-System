@@ -35,7 +35,7 @@ function About() {
           </div>
         </div>
 
-        {/* Mission section */}
+        Mission section
         <div className="hero min-h-[80vh] bg-white w-full mx-auto">
           <div className="hero-content flex-col lg:flex-row items-center gap-10 justify-between">
             <div className="text-center lg:text-left lg:w-1/2">

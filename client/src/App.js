@@ -7,7 +7,7 @@ import { Route, Routes } from "react-router-dom";
 import Footer from "./components/Footer/Footer";
 import Layout from "./components/Layout/Layout";
 import Hero from "./components/Hero/Hero";
-import About from "./components/About/About";
+import About from "./components/AboutHero/AboutHero";
 import Home from "./Pages/Home/Home";
 
 function App() {
