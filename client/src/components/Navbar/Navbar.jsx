@@ -28,7 +28,8 @@ function Navbar() {
   }, []);
 
   return (
-    <div className="navbar bg-base-200">
+    <div className="navbar bg-base-200 z-10 fixed">
+      <div className="w-4/5  fixed top-0 left-1/2 transform -translate-x-1/2 ">
       <div className="navbar-start">
         <div class="dropdown lg:hidden dropdown-bottom">
           <div id="dropdownButton" tabIndex="0" role="button" class="btn m-1">
@@ -89,7 +90,9 @@ function Navbar() {
           </ul>
         </div>
 
-        <a className="btn btn-ghost hidden lg:block text-2xl font-bold font-serif">Logo</a>
+        <a className=" hidden lg:block text-4xl font-bold font-serif">
+          Logo
+        </a>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal text-lg font-semibold px-1">
@@ -156,6 +159,8 @@ function Navbar() {
           </Link>
         </div>
       )}
+      </div>
+     
     </div>
   );
 }
