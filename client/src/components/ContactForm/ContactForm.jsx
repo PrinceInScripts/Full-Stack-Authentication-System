@@ -61,10 +61,10 @@ function ContactForm() {
           return;
         }
     
-        emailjs.init("PM34j4ctkfU902CIl");
+        emailjs.init(process.env.REACT_APP_EMAIL_API_KEY);
     
         emailjs
-          .sendForm("service_fdc8ao8", "template_bbjy9rh", event.target)
+          .sendForm(process.env.REACT_APP_EMAIL_SERVICE_KEY, process.env.REACT_APP_EMAIL_TEMPLATE_KEY, event.target)
           .then((response) => {
             event.target.reset();
             toast.success("Form Submitted Successfully");
