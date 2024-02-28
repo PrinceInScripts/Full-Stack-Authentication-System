@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import aboutHero from "../../asset/aboutHero.png";
+import aboutHero from "../../asset/aboutHero.jpg";
 import misson from "../../asset/misson.png";
 import solution from "../../asset/solution.jpg";
 import security from "../../asset/security.jpg";
@@ -9,10 +9,10 @@ import Layout from "../Layout/Layout";
 import ContactForm from "../ContactForm/ContactForm";
 
 
-function About() {
+function AboutHero() {
   return (
   
-        <div className="hero min-h-[80vh] bg-white border-b-2 w-full mx-auto">
+        <div className="hero min-h-[90vh] bg-white] w-full mx-auto">
           <div className="hero-content flex-col lg:flex-row-reverse items-center justify-between ">
             <div className="text-center lg:text-left lg:w-1/2">
               <h1 className="text-5xl font-bold text-gray-900">About Us</h1>
@@ -24,10 +24,10 @@ function About() {
                 experts is committed to delivering top-notch services to meet
                 your authentication needs.
               </p>
-             <Link to={"/about"}><button>Learn More</button></Link> 
+             <Link to={"/about"}><button className="btn btn-info">Learn More</button></Link> 
             </div>
             <div className="lg:w-1/2 lg:pl-8 flex justify-center">
-              <div className="max-w-sm x-auto shadow-2xl overflow-hidden rounded-lg">
+              <div className="w-4/5 x-auto shadow-2xl overflow-hidden rounded-lg">
                 <img className="" src={aboutHero} alt="Hero" />
               </div>
             </div>
@@ -38,4 +38,4 @@ function About() {
   );
 }
 
-export default About;
+export default AboutHero;
