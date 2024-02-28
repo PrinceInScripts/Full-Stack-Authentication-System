@@ -89,7 +89,7 @@ function ContactForm() {
         <div className="text-center lg:text-left lg:w-1/2 lg:pl-0">
           <h1 className="text-5xl font-bold">Contact Us</h1>
           <p className="py-6">
-            Ready to take your authentication system to the next level? Contact
+          <span className="text-4xl font-semibold">R</span>eady to take your authentication system to the next level? Contact
             us today to learn more about our services and how we can help your
             business succeed.
           </p>
