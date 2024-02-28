@@ -1,31 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import hero from "../../asset/hero.jpg";
+import homeHero from "../../asset/homeHero.jpg";
 
 function Hero() {
   return (
-    <div className="hero min-h-[80vh] pt-20 bg-base-900">
-      <div className="hero-content flex-col lg:flex-row items-center justify-between px-6 lg:px-12">
-        <div className="text-center lg:text-left lg:w-1/2">
-          <h1 className="text-5xl font-bold text-white">Hello there</h1>
-          <p className="py-6 text-white">
-            Welcome to our Full-Stack Authentication System! We are your premier destination for secure and efficient
-            authentication solutions. With our expertise and dedication, we're here to safeguard your data and provide
-            a seamless user experience.
-          </p>
-          <div className="flex gap-2">
-            <Link to="/" className="text-white">
-              <button className="btn btn-primary">Get Started</button>
-            </Link>
-            <Link to="/" className="text-white">
-              <button className="btn btn-secondary">Learn More</button>
-            </Link>
-          </div>
-        </div>
-        <div className="lg:w-1/2 lg:pl-8 flex justify-center">
-          <div className="max-w-md mx-auto">
-            <img className="w-full rounded-lg shadow-lg" src={hero} alt="Hero" />
-          </div>
+    <div className="hero min-h-screen flex flex-col justify-center items-center relative">
+      <div className="bg-center bg-contain w-full h-full absolute top-0 left-0" style={{ backgroundImage: `url(${homeHero})` }}></div>
+      <div className="bg-black opacity-50 w-full h-full absolute top-0 left-0"></div>
+      <div className="hero-content flex flex-col w-2/5 text-center text-white relative z-10">
+        <h1 className="text-5xl font-bold mb-6">Hello there</h1>
+        <p className="mb-8">
+          Welcome to our Full-Stack Authentication System! We are your premier destination for secure and efficient
+          authentication solutions. With our expertise and dedication, we're here to safeguard your data and provide
+          a seamless user experience.
+        </p>
+        <div className="flex gap-4">
+          <Link to="/" className="btn btn-primary">Get Started</Link>
+          <Link to="/" className="btn btn-secondary">Learn More</Link>
         </div>
       </div>
     </div>
