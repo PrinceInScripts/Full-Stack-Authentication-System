@@ -8,11 +8,13 @@ import Footer from "./components/Footer/Footer";
 import Layout from "./components/Layout/Layout";
 import Hero from "./components/Hero/Hero";
 import About from "./components/About/About";
+import Home from "./Pages/Home/Home";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<About />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/about" element={<About/>}/>
     </Routes>
   );
 }
