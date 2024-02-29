@@ -11,13 +11,14 @@ import Hero from "./components/Hero/Hero";
 import Home from "./Pages/Home/Home";
 import About from "./Pages/About/About";
 import ServiceHero from "./components/ServiceHero/ServiceHero";
+import Service from "./Pages/Service/Service";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About/>}/>
-      <Route path="/service" element={<ServiceHero/>}/>
+      <Route path="/service" element={<Service/>}/>
       
     </Routes>
   );

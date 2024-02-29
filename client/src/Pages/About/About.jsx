@@ -39,7 +39,7 @@ function About() {
             <div>
             <h1 className="text-3xl lg:text-4xl font-semibold mb-6">Why Choose Us?</h1>
             </div>
-          <div className="flex w-4/5 flex-col lg:flex-row mx-4 lg:mx-auto my-10 lg:my-36 justify-between gap-10 items-center">
+          <div className="flex flex-col lg:flex-row mx-4 lg:mx-auto my-10 lg:my-36 justify-between gap-10 items-center">
                    {/* Card 1 */}
           <div className="flex flex-col gap-5 px-2 lg:px-4 py-8 lg:py-6 bg-white rounded-lg shadow-md text-center">
             <img
@@ -71,7 +71,7 @@ function About() {
             </p>
           </div>
           {/* Card 3 */}
-          <div className="flex flex-col gap-5 px-2 lg:px-4 py-8 lg:py-6 bg-white rounded-lg shadow-md text-center">
+          <div className="flex flex-col px-2 lg:px-4 py-8 lg:py-6 bg-white rounded-lg shadow-md text-center">
             <img
               src={options}
               alt="Customization Options"
