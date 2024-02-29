@@ -43,7 +43,7 @@ function Navbar() {
           <ul
             id="dropdownContent"
             tabIndex="0"
-            class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+            class="dropdown-content z-50 menu opacity-100 p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
               <Link to={"/"}>Home</Link>
@@ -86,6 +86,9 @@ function Navbar() {
             </li>
             <li>
               <Link to={"/service"}>Service</Link>
+            </li>
+            <li>
+              <Link to={"/contact"}>Contact Us</Link>
             </li>
           </ul>
         </div>
@@ -138,6 +141,9 @@ function Navbar() {
           <li>
             <Link to={"/service"}>Service</Link>
           </li>
+          <li>
+              <Link to={"/contact"}>Contact Us</Link>
+            </li>
         </ul>
       </div>
       {isLoggedIn ? (
