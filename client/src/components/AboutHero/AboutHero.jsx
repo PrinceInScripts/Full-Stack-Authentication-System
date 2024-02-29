@@ -14,7 +14,7 @@ function AboutHero() {
   
         <div className="hero min-h-[90vh] bg-white] w-full mx-auto">
           <div className="hero-content flex-col lg:flex-row-reverse items-center justify-between ">
-            <div className="text-center lg:text-left lg:w-1/2">
+            <div className="text-center w-full lg:text-left lg:w-1/2">
               <h1 className="text-5xl font-bold text-gray-900">About Us</h1>
               <p className="py-6 text-xl capitalize-first text-gray-800">
                 <span className="text-4xl font-semibold">W</span>elcome to our
@@ -27,7 +27,7 @@ function AboutHero() {
              <Link to={"/about"}><button className="btn btn-info">Learn More</button></Link> 
             </div>
             <div className="lg:w-1/2 lg:pl-8 flex justify-center">
-              <div className="w-4/5 x-auto shadow-2xl overflow-hidden rounded-lg">
+              <div className="w-full lg:w-4/5 x-auto shadow-2xl overflow-hidden rounded-lg">
                 <img className="" src={aboutHero} alt="Hero" />
               </div>
             </div>
