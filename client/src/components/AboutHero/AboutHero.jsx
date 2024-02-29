@@ -12,7 +12,7 @@ import ContactForm from "../ContactForm/ContactForm";
 function AboutHero() {
   return (
   
-        <div className="hero min-h-[90vh] bg-white] w-full mx-auto">
+        <div className="hero min-h-[90vh] bg-white w-full mx-auto">
           <div className="hero-content flex-col lg:flex-row-reverse items-center justify-between ">
             <div className="text-center w-full lg:text-left lg:w-1/2">
               <h1 className="text-5xl font-bold text-gray-900">About Us</h1>
