@@ -12,6 +12,7 @@ import Home from "./Pages/Home/Home";
 import About from "./Pages/About/About";
 import ServiceHero from "./components/ServiceHero/ServiceHero";
 import Service from "./Pages/Service/Service";
+import ContactComp from "./components/ContactComp/ContactComp";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About/>}/>
       <Route path="/service" element={<Service/>}/>
+      <Route path="/contact" element={<ContactComp/>}/>
       
     </Routes>
   );
