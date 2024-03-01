@@ -7,7 +7,7 @@ function ContactComp() {
         <div className="hero min-h-screen flex flex-col justify-center items-center relative">
           <div className="bg-center bg-cover w-full h-full absolute top-0 left-0" style={{ backgroundImage: `url(${contact})` }}></div>
           <div className="bg-black opacity-50 w-full h-full absolute top-0 left-0"></div>
-          <div className="hero-content flex flex-col w-full lg:w-2/5 text-center text-white relative z-10">
+          <div className="hero-content flex flex-col w-full lg:w-2/5 text-center text-white relative">
           <p className="mb-2 font-sans font-semibold">
            Contact us today to learn more about our services
           </p>

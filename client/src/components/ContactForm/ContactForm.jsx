@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import emailjs from "emailjs-com";
 import contactImage from "../../asset/contactImage.jpg";
+import contact from "../../asset/contact.jpg"
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 function ContactForm() {
   const [contactDetails, setContactDetails] = useState({
@@ -77,6 +79,7 @@ function ContactForm() {
   };
 
   return (
+    <>
     <div className="hero min-h-[80vh] bg-base-900">
       <div className="hero-content flex-col lg:flex-row-reverse lg:justify-between gap-40 items-center mx-4 lg:mx-36">
         <div className="hidden lg:block relative">
@@ -147,7 +150,22 @@ function ContactForm() {
           </div>
         </div>
       </div>
+
+
+     
     </div>
+
+    <div className="hero mt-40 min-h-screen flex flex-col justify-center items-center relative">
+          <div className="bg-center bg-cover w-full h-full absolute top-0 left-0" style={{ backgroundImage: `url(${contact})` }}></div>
+          <div className="bg-black opacity-50 w-full h-full absolute top-0 left-0"></div>
+          <div className="hero-content flex flex-col w-full lg:w-2/5 text-center text-white relative">
+          <p className="mb-2 font-sans font-semibold">
+           Contact us today to learn more about our services
+          </p>
+            <h1 className="text-5xl font-bold mb-6">Let's work together to make it amazing</h1>
+          </div>
+        </div>
+    </>
   );
 }
 
