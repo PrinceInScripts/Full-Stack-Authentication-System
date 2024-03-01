@@ -5,7 +5,7 @@ import serviceHero from "../../asset/serviceHero.jpg";
 function ServiceHero() {
   return (
    
-      <div className="hero mt-14 lg:mt-0 min-h-[90vh] bg-white] w-full mx-auto">
+      <div className="hero mt-14 lg:mt-0 min-h-[80vh] bg-white w-full mx-auto">
         <div className="hero-content flex-col lg:flex-row items-center justify-between ">
           <div className="text-center mx-auto w-full lg:text-left lg:w-1/2 font-sans">
             <h1 className="lg:text-5xl text-4xl font-bold text-gray-900 font-serif mb-4">

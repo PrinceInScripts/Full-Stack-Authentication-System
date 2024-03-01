@@ -15,8 +15,8 @@ function Hero() {
           a seamless user experience.
         </p>
         <div className="flex gap-4">
-          <Link to="/" className="btn btn-primary">Get Started</Link>
-          <Link to="/" className="btn btn-secondary">Learn More</Link>
+          <Link to="/login" className="btn btn-primary">Get Started</Link>
+          <Link to="/about" className="btn btn-secondary">Learn More</Link>
         </div>
       </div>
     </div>
