@@ -6,6 +6,7 @@ import consultation from "../../asset/consultation.jpg"
 import implementation from "../../asset/implementation.jpg"
 import support from "../../asset/support.jpg"
 import development from "../../asset/development.jpg"
+import ContactComp from "../../components/ContactComp/ContactComp";
 
 function Service() {
   return (
@@ -85,7 +86,7 @@ function Service() {
       </div>
 
       {/* Contact form section */}
-      <ContactForm />
+      <ContactComp />
     </Layout>
   );
 }

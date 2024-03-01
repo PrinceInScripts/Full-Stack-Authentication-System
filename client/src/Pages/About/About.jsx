@@ -6,6 +6,7 @@ import options from "../../asset/options.jpg";
 import AboutHero from "../../components/AboutHero/AboutHero";
 import Layout from "../../components/Layout/Layout";
 import ContactForm from "../../components/ContactForm/ContactForm";
+import ContactComp from "../../components/ContactComp/ContactComp";
 
 
 function About() {
@@ -92,7 +93,7 @@ function About() {
       </div>
 
       {/* Contact form section */}
-      <ContactForm />
+      <ContactComp />
     </Layout>
   );
 }
