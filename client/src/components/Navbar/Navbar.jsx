@@ -28,16 +28,16 @@ function Navbar() {
   }, []);
 
   return (
-    <div className="navbar bg-base-200 z-10 fixed">
-      <div className="w-4/5  fixed top-0 left-1/2 transform -translate-x-1/2 ">
-      <div className="navbar-start">
+    <div className="navbar bg-base-200 z-10 fixed w-full">
+      <div className="w-full lg:w-4/5 flex justify-between  fixed top-0 left-1/2 transform -translate-x-1/2 ">
+      <div className="navbar-start w-full lg:w-4/5 flex items-center justify-between">
         <div class="dropdown lg:hidden dropdown-bottom">
           <div id="dropdownButton" tabIndex="0" role="button" class="btn m-1">
             {" "}
             {isMenuActive ? (
               <FiMenu size={20} onClick={() => showDropdown()} />
             ) : (
-              <RiCloseFill size={20} onClick={() => hideDropdown()} />
+              <RiCloseFill size={24} onClick={() => hideDropdown()} />
             )}
           </div>
           <ul
@@ -87,15 +87,42 @@ function Navbar() {
             <li>
               <Link to={"/service"}>Service</Link>
             </li>
-            <li>
+            <li className="border-b-2">
               <Link to={"/contact"}>Contact Us</Link>
             </li>
+           
+            {isLoggedIn ? (
+        <li className="flex flex-row">
+          <Link to={"/me"}>
+            My Profile
+          </Link>
+          <Link to={"/logout"}>
+           Logout
+          </Link>
+        </li>
+      ) : (
+        <li className="flex flex-row">
+          <Link className="" to={"/signup"}>
+           Sign Up
+          </Link>
+          <Link to={"/login"}>
+           Login
+          </Link>
+        </li>
+      )}
+            
           </ul>
         </div>
 
-        <a className=" hidden lg:block text-4xl font-bold font-serif">
+
+        <div>
+         <Link to={"/"}>
+        <button className=" btn  text-4xl font-bold font-serif">
           Logo
-        </a>
+        </button>
+        </Link> 
+        </div>
+        
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal text-lg font-semibold px-1">
@@ -147,12 +174,12 @@ function Navbar() {
         </ul>
       </div>
       {isLoggedIn ? (
-        <div className="navbar-end flex gap-2">
+        <div className="navbar-end hidden lg:flex gap-2">
           <Link to={"/me"}>
             <button className="btn btn-primary">My Profile</button>
           </Link>
           <Link>
-            <button className="btn">Logout</button>
+            <button className="btn btn-secondary">Logout</button>
           </Link>
         </div>
       ) : (
