@@ -14,6 +14,7 @@ import ServiceHero from "./components/ServiceHero/ServiceHero";
 import Service from "./Pages/Service/Service";
 import ContactComp from "./components/ContactComp/ContactComp";
 import Contact from "./Pages/Contact/Contact";
+import Signup from "./components/Signup/Signup";
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
       <Route path="/about" element={<About/>}/>
       <Route path="/service" element={<Service/>}/>
       <Route path="/contact" element={<Contact/>}/>
-      <Route path="/contactus" element={<ContactComp/>}/>
+      <Route path="/signup" element={<Signup/>}/>
       
     </Routes>
   );
