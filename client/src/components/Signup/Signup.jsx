@@ -4,11 +4,14 @@ import { isEmail, isValidPassword } from "../../helper/RegexMatcher";
 import { useDispatch } from "react-redux";
 import { createAccount } from "../../redux/slice/authSlice";
 import { MdEmail } from "react-icons/md";
-import { FaEye, FaUser } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaUser } from "react-icons/fa";
 import { FaKey } from "react-icons/fa";
 
 function Signup() {
   const dispatch = useDispatch();
+  const [showPassword,setShowPassword]=useState(false)
+  const [showConfPassword,setShowConfPassword]=useState(false)
+
   const [signupDetails, setSignupDetials] = useState({
     username: "",
     email: "",
@@ -86,6 +89,13 @@ function Signup() {
       });
     }
   }
+
+  function toogleShowPassword(){
+    setShowPassword(!showPassword)
+  }
+  function toogleShowConfPassword(){
+    setShowConfPassword(!showConfPassword)
+  }
   return (
     <div className="max-w-md mx-auto mt-10">
       <form onSubmit={onHandleSubmit}>
@@ -119,27 +129,32 @@ function Signup() {
           <label className="input input-bordered flex items-center gap-2">
             <FaKey />
             <input
-              type="password"
+               type={showPassword ? "text" : "password"}
               name="password"
               className="grow"
               placeholder="Password"
               value={signupDetails.password}
               onChange={onChangeInput}
             />
+            {
+             showPassword ? (<FaEyeSlash className="cursor-pointer" onClick={toogleShowPassword}/>) : (<FaEye className="cursor-pointer" onClick={toogleShowPassword}/>)
+            }
           </label>
         </div>
         <div className="mb-4">
           <label className="input input-bordered flex items-center gap-2">
             <FaKey />
             <input
-              type="password"
+              type={showConfPassword ? "text" : "password"}
               name="confirmPassword"
               className="grow"
               placeholder="Confirm Password"
               value={signupDetails.confirmPassword}
               onChange={onChangeInput}
             />
-            <FaEye />
+            {
+             showPassword ? (<FaEyeSlash className="cursor-pointer" onClick={toogleShowConfPassword}/>) : (<FaEye className="cursor-pointer" onClick={toogleShowConfPassword}/>)
+            }
           </label>
         </div>
         <div className="mt-6">
