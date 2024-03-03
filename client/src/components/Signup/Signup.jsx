@@ -6,11 +6,12 @@ import { createAccount } from "../../redux/slice/authSlice";
 import { MdEmail } from "react-icons/md";
 import { FaEye, FaEyeSlash, FaUser } from "react-icons/fa";
 import { FaKey } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 function Signup() {
   const dispatch = useDispatch();
-  const [showPassword,setShowPassword]=useState(false)
-  const [showConfPassword,setShowConfPassword]=useState(false)
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfPassword, setShowConfPassword] = useState(false);
 
   const [signupDetails, setSignupDetials] = useState({
     username: "",
@@ -90,14 +91,14 @@ function Signup() {
     }
   }
 
-  function toogleShowPassword(){
-    setShowPassword(!showPassword)
+  function toogleShowPassword() {
+    setShowPassword(!showPassword);
   }
-  function toogleShowConfPassword(){
-    setShowConfPassword(!showConfPassword)
+  function toogleShowConfPassword() {
+    setShowConfPassword(!showConfPassword);
   }
   return (
-    <div className="max-w-md mx-auto mt-10">
+    <div className="max-w-md mx-4 lg:mx-auto mt-10">
       <form onSubmit={onHandleSubmit}>
         <div className="mb-4">
           <label className="input input-bordered flex items-center gap-2">
@@ -129,16 +130,21 @@ function Signup() {
           <label className="input input-bordered flex items-center gap-2">
             <FaKey />
             <input
-               type={showPassword ? "text" : "password"}
+              type={showPassword ? "text" : "password"}
               name="password"
-              className="grow"
+              className="grow "
               placeholder="Password"
               value={signupDetails.password}
               onChange={onChangeInput}
             />
-            {
-             showPassword ? (<FaEyeSlash className="cursor-pointer" onClick={toogleShowPassword}/>) : (<FaEye className="cursor-pointer" onClick={toogleShowPassword}/>)
-            }
+            {showPassword ? (
+              <FaEyeSlash
+                className="cursor-pointer"
+                onClick={toogleShowPassword}
+              />
+            ) : (
+              <FaEye className="cursor-pointer" onClick={toogleShowPassword} />
+            )}
           </label>
         </div>
         <div className="mb-4">
@@ -152,9 +158,17 @@ function Signup() {
               value={signupDetails.confirmPassword}
               onChange={onChangeInput}
             />
-            {
-             showPassword ? (<FaEyeSlash className="cursor-pointer" onClick={toogleShowConfPassword}/>) : (<FaEye className="cursor-pointer" onClick={toogleShowConfPassword}/>)
-            }
+            {showPassword ? (
+              <FaEyeSlash
+                className="cursor-pointer"
+                onClick={toogleShowConfPassword}
+              />
+            ) : (
+              <FaEye
+                className="cursor-pointer"
+                onClick={toogleShowConfPassword}
+              />
+            )}
           </label>
         </div>
         <div className="mt-6">
@@ -163,6 +177,14 @@ function Signup() {
           </button>
         </div>
       </form>
+      <div className="flex justify-center mt-4">
+        <p className="text-sm text-gray-600">
+          Already have an account?{" "}
+          <Link to="/login" className="font-serif font-semibold">
+            <a className="link link-primary">login</a>
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }
