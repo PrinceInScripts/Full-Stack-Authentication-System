@@ -1,64 +1,155 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { isEmail, isValidPassword } from '../../helper/RegexMatcher';
+import { isEmail, isValidPassword } from "../../helper/RegexMatcher";
+import { useDispatch } from "react-redux";
+import { createAccount } from "../../redux/slice/authSlice";
+import { MdEmail } from "react-icons/md";
+import { FaEye, FaUser } from "react-icons/fa";
+import { FaKey } from "react-icons/fa";
 
 function Signup() {
-    const [signupDetials,setSignupDetials]=useState({
-        username:"",
-        email:"",
-        password:"",
-        confirmPassword:""
-    })
+  const dispatch = useDispatch();
+  const [signupDetails, setSignupDetials] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
-    const onChangeInput=(e)=>{
-        const {name,value}=e.target;
+  const onChangeInput = (e) => {
+    const { name, value } = e.target;
 
-        setSignupDetials({
-            ...setSignupDetials,
-            [name]:value
-        })
+    setSignupDetials({
+      ...signupDetails,
+      [name]: value,
+    });
+  };
+
+  async function onHandleSubmit(e) {
+    e.preventDefault();
+
+    console.log(signupDetails);
+
+    if (!signupDetails.username) {
+      toast.error("username is required");
+      return;
     }
 
-   async function onHandleSubmit(e){
-    e.preventDefault()
-
-    if(!signupDetials.username){
-        toast.error("username is required")
-        return;
+    if (!signupDetails.email) {
+      toast.error("email is required");
+      return;
     }
 
-    if(!signupDetials.email){
-        toast.error("email is required")
-        return;
+    if (!signupDetails.password) {
+      toast.error("password is required");
+      return;
     }
 
-    if(!signupDetials.password){
-        toast.error("password is required")
-        return;
+    if (!signupDetails.confirmPassword) {
+      toast.error("confirmPassword is required");
+      return;
     }
 
-    if(!signupDetials.confirmPassword){
-        toast.error("confirmPassword is required")
-        return;
+    if (signupDetails.username.length < 5) {
+      toast.error("username should be atleast 5 character");
+      return;
     }
 
-    if(signupDetials.username.length < 5){
-        toast.error("username should be atleast 5 character")
+    if (!isEmail(signupDetails.email)) {
+      toast.error("Email is invalid");
+      return;
     }
 
-    if(!isEmail(signupDetials.email)){
-        toast.error("Email is invalid")
+    if (!isValidPassword(signupDetails.password)) {
+      toast.error(
+        "Invalid password provided, password should 6-16 character long with atleast a number and a special character"
+      );
+      return;
     }
 
-    if(!isValidPassword(signupDetials.password)){
-        toast.error("Invalid password provided, password should 6-16 character long with atleast a number and a special character")
+    const loadingToastId = toast.loading("Signing up...");
+
+    try {
+      const response = await dispatch(createAccount(signupDetails));
+      console.log(response);
+      if (response?.payload?.data?.success) {
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+    } finally {
+      toast.dismiss(loadingToastId);
+      setSignupDetials({
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      });
     }
-   }
+  }
   return (
-    <div>
-      
+    <div className="max-w-md mx-auto mt-10">
+      <form onSubmit={onHandleSubmit}>
+        <div className="mb-4">
+          <label className="input input-bordered flex items-center gap-2">
+            <FaUser />
+            <input
+              type="text"
+              name="username"
+              className="grow"
+              placeholder="Username"
+              value={signupDetails.username}
+              onChange={onChangeInput}
+            />
+          </label>
+        </div>
+        <div className="mb-4">
+          <label className="input input-bordered flex items-center gap-2">
+            <MdEmail />
+            <input
+              type="email"
+              name="email"
+              className="grow"
+              placeholder="Email"
+              value={signupDetails.email}
+              onChange={onChangeInput}
+            />
+          </label>
+        </div>
+        <div className="mb-4">
+          <label className="input input-bordered flex items-center gap-2">
+            <FaKey />
+            <input
+              type="password"
+              name="password"
+              className="grow"
+              placeholder="Password"
+              value={signupDetails.password}
+              onChange={onChangeInput}
+            />
+          </label>
+        </div>
+        <div className="mb-4">
+          <label className="input input-bordered flex items-center gap-2">
+            <FaKey />
+            <input
+              type="password"
+              name="confirmPassword"
+              className="grow"
+              placeholder="Confirm Password"
+              value={signupDetails.confirmPassword}
+              onChange={onChangeInput}
+            />
+            <FaEye />
+          </label>
+        </div>
+        <div className="mt-6">
+          <button type="submit" className="btn btn-primary w-full">
+            Sign Up
+          </button>
+        </div>
+      </form>
     </div>
-  )
+  );
 }
 
-export default Signup
+export default Signup;
