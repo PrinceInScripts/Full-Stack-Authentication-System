@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { isEmail, isValidPassword } from "../../helper/RegexMatcher";
 import { useDispatch } from "react-redux";
-import { createAccount } from "../../redux/slice/authSlice";
+import { createAccount, initiateGitHubLogin, initiateGoogleLogin } from "../../redux/slice/authSlice";
 import { MdEmail } from "react-icons/md";
 import { FaEye, FaEyeSlash, FaUser } from "react-icons/fa";
 import { FaKey } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import axiosInstance from "../../config/axiosInstance";
 
 function Signup() {
   const dispatch = useDispatch();
@@ -97,6 +98,8 @@ function Signup() {
   function toogleShowConfPassword() {
     setShowConfPassword(!showConfPassword);
   }
+
+  
   return (
     <div className="max-w-md mx-4 lg:mx-auto mt-10">
       <form onSubmit={onHandleSubmit}>

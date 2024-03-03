@@ -27,6 +27,7 @@ export const createAccount = createAsyncThunk("/users/signup", async (data) => {
   }
 });
 
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
