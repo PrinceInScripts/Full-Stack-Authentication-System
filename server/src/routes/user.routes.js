@@ -42,9 +42,16 @@ router.route("/github").get(
     (req,res)=>res.send("redirecting to github.....")
 )
 
-router
-  .route("/google/callback")
-  .get(passport.authenticate("google"), handleSocialLogin);
+// router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+// router
+//   .route("/google/callback")
+//   .get(passport.authenticate("google"), handleSocialLogin);
+
+router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
+  // Redirect user to frontend URL after successful authentication
+  res.redirect('http://localhost:3000'); // Replace with your frontend URL
+});
 
 router
   .route("/github/callback")
