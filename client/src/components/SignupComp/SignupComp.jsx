@@ -2,14 +2,13 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { isEmail, isValidPassword } from "../../helper/RegexMatcher";
 import { useDispatch } from "react-redux";
-import { createAccount, initiateGitHubLogin, initiateGoogleLogin } from "../../redux/slice/authSlice";
+import { createAccount  } from "../../redux/slice/authSlice";
 import { MdEmail } from "react-icons/md";
 import { FaEye, FaEyeSlash, FaUser } from "react-icons/fa";
 import { FaKey } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import axiosInstance from "../../config/axiosInstance";
 
-function Signup() {
+function SignupComp() {
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfPassword, setShowConfPassword] = useState(false);
@@ -56,7 +55,7 @@ function Signup() {
     }
 
     if (signupDetails.username.length < 5) {
-      toast.error("username should be atleast 5 character");
+      toast.error("username should be at least 5 character");
       return;
     }
 
@@ -101,7 +100,7 @@ function Signup() {
 
   
   return (
-    <div className="max-w-md mx-4 lg:mx-auto mt-10">
+    <div className="w-96 mx-4 lg:mx-auto mt-10">
       <form onSubmit={onHandleSubmit}>
         <div className="mb-4">
           <label className="input input-bordered flex items-center gap-2">
@@ -192,4 +191,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default SignupComp;

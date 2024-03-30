@@ -14,7 +14,7 @@ import ServiceHero from "./components/ServiceHero/ServiceHero";
 import Service from "./Pages/Service/Service";
 import ContactComp from "./components/ContactComp/ContactComp";
 import Contact from "./Pages/Contact/Contact";
-import Signup from "./components/Signup/Signup";
+import Signup from "./Pages/Signup/Signup";
 
 function App() {
   return (
