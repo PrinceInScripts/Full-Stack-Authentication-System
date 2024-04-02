@@ -65,6 +65,21 @@ export const logoutUser = createAsyncThunk(
   }
 );
 
+export const verifyEmail = createAsyncThunk(
+  'auth/verifyEmail',
+  async (verificationToken, thunkAPI) => {
+    try {
+      const response = await axiosInstance.get(`/users/verify-email/${verificationToken}`);
+      const responseData = response.data;
+      toast.success(responseData.message);
+      return responseData;
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
 
 const authSlice = createSlice({
   name: "auth",
@@ -98,6 +113,18 @@ const authSlice = createSlice({
         localStorage.clear();
       })
       .addCase(logoutUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(verifyEmail.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(verifyEmail.fulfilled, (state, action) => {
+        state.isLoading = false;
+        // Update state based on the response if needed
+      })
+      .addCase(verifyEmail.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });

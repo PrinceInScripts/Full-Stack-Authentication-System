@@ -193,7 +193,7 @@ function Navbar() {
             <button className="btn btn-primary">My Profile</button>
           </Link>
           <Link>
-          <button onClick={handleLogout} className="btn btn-secondary"></button>
+          <button onClick={handleLogout} className="btn btn-secondary">Logout</button>
           </Link>
         </div>
       ) : (
