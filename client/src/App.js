@@ -15,6 +15,7 @@ import Service from "./Pages/Service/Service";
 import ContactComp from "./components/ContactComp/ContactComp";
 import Contact from "./Pages/Contact/Contact";
 import Signup from "./Pages/Signup/Signup";
+import LoginComp from "./components/LoginComp/LoginComp";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
       <Route path="/service" element={<Service/>}/>
       <Route path="/contact" element={<Contact/>}/>
       <Route path="/signup" element={<Signup/>}/>
+      <Route path="/login" element={<LoginComp/>}/>
       
     </Routes>
   );

@@ -92,10 +92,13 @@ const userRegistration = AsyncHandler(async (req, res) => {
 });
 
 const logInUser = AsyncHandler(async (req, res) => {
-  const { email, username, password } = req.body;
+  const { usernameOrEmail, password } = req.body;
 
   const user = await User.findOne({
-    $or: [{ email }, { username }],
+    $or: [
+      { email: usernameOrEmail.toLowerCase() },
+      { username: usernameOrEmail }, 
+    ],
   });
 
   if (!user) {
@@ -295,10 +298,13 @@ const refreshAccessToken = AsyncHandler(async (req, res) => {
 });
 
 const forgotPassword = AsyncHandler(async (req, res) => {
-  const { email, username } = req.body;
+  const { usernameOrEmail } = req.body;
 
   const user = await User.findOne({
-    $or: [{ email }, { username }],
+    $or: [
+      { email: usernameOrEmail.toLowerCase() }, 
+      { username: usernameOrEmail }, 
+    ],
   });
 
   if (!user) {
