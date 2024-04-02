@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { isEmail, isValidPassword } from "../../helper/RegexMatcher";
 import { useDispatch } from "react-redux";
-import { createAccount } from "../../redux/slice/authSlice";
 import { MdEmail } from "react-icons/md";
 import { FaEye, FaEyeSlash, FaUser } from "react-icons/fa";
 import { FaKey } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { loginUser } from "../../redux/slice/authSlice";
 
 function LoginComp() {
   const dispatch = useDispatch();
+  const navigate=useNavigate()
   const [showPassword, setShowPassword] = useState(false);
 
   const [loginDetails, setLoginDetails] = useState({
@@ -37,12 +38,31 @@ function LoginComp() {
     e.preventDefault();
     console.log(loginDetails);
 
-    if (!isEmail(loginDetails.usernameOrEmail)) {
-      toast.error("Please enter a valid email");
-      return;
-    }
+    // if (!isEmail(loginDetails.usernameOrEmail)) {
+    //   toast.error("Please enter a valid email");
+    //   return;
+    // }
 
-    // Perform further validation and dispatch action for login
+    const loadingToastId = toast.loading("logging In...");
+
+    try {
+      const response = await dispatch(loginUser(loginDetails));
+      
+      if (response?.payload?.data?.success) {
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+    } finally {
+      toast.dismiss(loadingToastId);
+      setLoginDetails({
+        usernameOrEmail: "",
+    password: "",
+    
+      });
+      navigate("/")
+
+    }
+    
   }
 
   function toggleShowPassword() {
