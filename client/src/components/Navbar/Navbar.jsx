@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { FiMenu } from "react-icons/fi";
 import { RiCloseFill } from "react-icons/ri";
+import { logoutUser } from "../../redux/slice/authSlice";
 
 function Navbar() {
   const [isMenuActive, setIsMenuActive] = useState(true);
   const isLoggedIn = useSelector((state) => state?.auth?.isLoggedIn);
   const isAdmin = useSelector((state) => state?.auth?.isAdmin);
   const isSuperAdmin = useSelector((state) => state?.auth?.isSuperAdmin);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
 
   function showDropdown() {
     var dropdownContent = document.getElementById("dropdownContent");
@@ -21,6 +25,16 @@ function Navbar() {
     dropdownContent.style.display = "none";
     setIsMenuActive(!isMenuActive);
   }
+
+ const handleLogout = () => {
+    dispatch(logoutUser())
+      .unwrap()
+      .then(() => {
+      
+        navigate("/login");
+      });
+  };
+
   useEffect(() => {
     console.log(isLoggedIn);
     console.log(isAdmin);
@@ -96,7 +110,7 @@ function Navbar() {
           <Link to={"/me"}>
             My Profile
           </Link>
-          <Link to={"/logout"}>
+          <Link to={"/logout"}  onClick={handleLogout}>
            Logout
           </Link>
         </li>
@@ -179,7 +193,7 @@ function Navbar() {
             <button className="btn btn-primary">My Profile</button>
           </Link>
           <Link>
-            <button className="btn btn-secondary">Logout</button>
+          <button onClick={handleLogout} className="btn btn-secondary"></button>
           </Link>
         </div>
       ) : (
