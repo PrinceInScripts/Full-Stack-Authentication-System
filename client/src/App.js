@@ -9,6 +9,7 @@ import Signup from "./Pages/Signup/Signup";
 import Login from "./Pages/Login/Login";
 import ForgotPassword from "./Pages/forgotPassword/forgotPassword";
 import ResetPassword from "./Pages/resertPassword/ResetPassword";
+import EmailVerification from "./Pages/EmailVerification/EmailVerification";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
       <Route path="/login" element={<Login/>}/>
       <Route path="/forgot-password" element={<ForgotPassword/>}/>
       <Route path="/reset-password/:resetPasswordToken" element={<ResetPassword/>}/>
+      <Route path="/verify-email/:verificationToken" element={<EmailVerification/>}/>
       
     </Routes>
   );

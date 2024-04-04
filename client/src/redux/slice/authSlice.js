@@ -65,20 +65,20 @@ export const logoutUser = createAsyncThunk(
   }
 );
 
-// export const verifyEmail = createAsyncThunk(
-//   'auth/verifyEmail',
-//   async (verificationToken, thunkAPI) => {
-//     try {
-//       const response = await axiosInstance.get(`/users/verify-email/${verificationToken}`);
-//       const responseData = response.data;
-//       toast.success(responseData.message);
-//       return responseData;
-//     } catch (error) {
-//       toast.error(error?.response?.data?.message);
-//       return thunkAPI.rejectWithValue(error.response.data);
-//     }
-//   }
-// );
+export const verifyEmail = createAsyncThunk(
+  'auth/verifyEmail',
+  async (verificationToken, thunkAPI) => {
+    try {
+      const response = await axiosInstance.get(`/users/verify-email/${verificationToken}`);
+      const responseData = response.data;
+      toast.success(responseData.message);
+      return responseData;
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
 
 export const forgotPassword = createAsyncThunk(
   "auth/fogorPassword",
