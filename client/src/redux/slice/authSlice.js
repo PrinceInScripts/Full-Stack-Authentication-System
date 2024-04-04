@@ -2,14 +2,20 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "../../config/axiosInstance";
 import { toast } from "react-toastify";
 
-const storedUser = localStorage.getItem("user");
-const parsedUser = storedUser ? JSON.parse(storedUser) : null;
+const setUserLocalStorage = (userData) => {
+  localStorage.setItem("user", JSON.stringify(userData));
+  localStorage.setItem("role", userData.role);
+  localStorage.setItem("isAdmin", userData.role === "ADMIN");
+  localStorage.setItem("isSuperAdmin", userData.role === "SUPERADMIN");
+  localStorage.setItem("isManager", userData.role === "MANAGER");
+  localStorage.setItem("isUser", userData.role === "USER");
+};
 
 const initialState = {
   isLoggedIn: localStorage.getItem("isLoggedIn") || false,
   isLoading: false,
   error: null,
-  user: parsedUser,
+  user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null,
   accessToken: localStorage.getItem("accessToken") || null,
   role: localStorage.getItem("role") || null,
   isAdmin: localStorage.getItem("isAdmin") || false,
@@ -18,6 +24,7 @@ const initialState = {
   isUser: localStorage.getItem("isUser") || false,
 };
 
+// Thunks
 export const createAccount = createAsyncThunk("/users/signup", async (data) => {
   try {
     const response = await axiosInstance.post("users/register", data);
@@ -36,13 +43,10 @@ export const loginUser = createAsyncThunk(
     try {
       const response = await axiosInstance.post("/users/login", loginData);
       const responseData = response.data.data;
-      console.log(responseData);
-      localStorage.setItem("user", JSON.stringify(responseData.loggedInUser));
+      setUserLocalStorage(responseData.loggedInUser);
       localStorage.setItem("accessToken", responseData.accessToken);
       localStorage.setItem("isLoggedIn", true);
-
       toast.success("Logged in successfully");
-
       return responseData;
     } catch (error) {
       toast.error(error?.response?.data?.message);
@@ -81,15 +85,12 @@ export const verifyEmail = createAsyncThunk(
 );
 
 export const forgotPassword = createAsyncThunk(
-  "auth/fogorPassword",
+  "auth/forgotPassword",
   async (forgotPasswordData, thunkAPI) => {
     try {
       const response = await axiosInstance.post("/users/forgot-password", forgotPasswordData);
       const responseData = response.data.data;
-      console.log(responseData);
-
       toast.success("Password reset link sent successfully!");
-
       return responseData;
     } catch (error) {
       toast.error(error?.response?.data?.message);
@@ -97,16 +98,14 @@ export const forgotPassword = createAsyncThunk(
     }
   }
 );
+
 export const resetPassword = createAsyncThunk(
-  "auth/fogorPassword",
+  "auth/resetPassword",
   async (resetPasswordData, thunkAPI) => {
     try {
       const response = await axiosInstance.post(`/users/reset-password/${resetPasswordData.resetPasswordToken}`, resetPasswordData);
       const responseData = response.data.data;
-      console.log(responseData);
-
       toast.success("Reset Password successfully!");
-
       return responseData;
     } catch (error) {
       toast.error(error?.response?.data?.message);
@@ -115,8 +114,20 @@ export const resetPassword = createAsyncThunk(
   }
 );
 
-
-
+export const getCurrentUser = createAsyncThunk(
+  "auth/getCurrentUser",
+  async (_, thunkAPI) => {
+    try {
+      const response = await axiosInstance.get("/users/current-user");
+      const responseData = response.data.data;
+      setUserLocalStorage(responseData);
+      return responseData;
+    } catch (error) {
+      toast.error("Failed to get current user data");
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
 
 const authSlice = createSlice({
   name: "auth",
@@ -133,6 +144,12 @@ const authSlice = createSlice({
         state.isLoggedIn = true;
         state.user = action.payload.loggedInUser;
         state.accessToken = action.payload.accessToken;
+        const userRole = action.payload.loggedInUser.role;
+        state.role = userRole;
+        state.isAdmin = userRole === "ADMIN";
+        state.isSuperAdmin = userRole === "SUPERADMIN";
+        state.isManager = userRole === "MANAGER";
+        state.isUser = userRole === "USER";
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
@@ -153,18 +170,34 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       })
-      // .addCase(verifyEmail.pending, (state) => {
-      //   state.isLoading = true;
-      //   state.error = null;
-      // })
-      // .addCase(verifyEmail.fulfilled, (state, action) => {
-      //   state.isLoading = false;
-      //   // Update state based on the response if needed
-      // })
-      // .addCase(verifyEmail.rejected, (state, action) => {
-      //   state.isLoading = false;
-      //   state.error = action.payload;
-      // });
+      .addCase(verifyEmail.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(verifyEmail.fulfilled, (state, action) => {
+        state.isLoading = false;
+      })
+      .addCase(verifyEmail.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(getCurrentUser.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(getCurrentUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload;
+        state.role = action.payload.role;
+        state.isAdmin = action.payload.role === "ADMIN";
+        state.isSuperAdmin = action.payload.role === "SUPERADMIN";
+        state.isManager = action.payload.role === "MANAGER";
+        state.isUser = action.payload.role === "USER";
+      })
+      .addCase(getCurrentUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
   },
 });
 
