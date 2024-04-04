@@ -81,7 +81,7 @@ export const logoutUser = createAsyncThunk(
 // );
 
 export const forgotPassword = createAsyncThunk(
-  "auth/loginUser",
+  "auth/fogorPassword",
   async (forgotPasswordData, thunkAPI) => {
     try {
       const response = await axiosInstance.post("/users/forgot-password", forgotPasswordData);
@@ -89,6 +89,23 @@ export const forgotPassword = createAsyncThunk(
       console.log(responseData);
 
       toast.success("Password reset link sent successfully!");
+
+      return responseData;
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+export const resetPassword = createAsyncThunk(
+  "auth/fogorPassword",
+  async (resetPasswordData, thunkAPI) => {
+    try {
+      const response = await axiosInstance.post(`/users/reset-password/${resetPasswordData.resetPasswordToken}`, resetPasswordData);
+      const responseData = response.data.data;
+      console.log(responseData);
+
+      toast.success("Reset Password successfully!");
 
       return responseData;
     } catch (error) {

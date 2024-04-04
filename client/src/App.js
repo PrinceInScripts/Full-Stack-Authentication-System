@@ -8,6 +8,7 @@ import Contact from "./Pages/Contact/Contact";
 import Signup from "./Pages/Signup/Signup";
 import Login from "./Pages/Login/Login";
 import ForgotPassword from "./Pages/forgotPassword/forgotPassword";
+import ResetPassword from "./Pages/resertPassword/ResetPassword";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       <Route path="/signup" element={<Signup/>}/>
       <Route path="/login" element={<Login/>}/>
       <Route path="/forgot-password" element={<ForgotPassword/>}/>
+      <Route path="/reset-password/:resetPasswordToken" element={<ResetPassword/>}/>
       
     </Routes>
   );

@@ -50,23 +50,26 @@ const loginUserValidator=()=>{
 
 const userForgotPasswordValidator=()=>{
     return [
-        body("email")
-                   .optional()
-                   .notEmpty()
-                   .withMessage("Email is required")
-                   .isEmail()
-                   .withMessage("Email is Invalid"),
-        
-        body("username")
-                       .optional()
-                       .notEmpty()
-                       .withMessage("username is required")
-    ]
+        body("usernameOrEmail")
+          .notEmpty()
+          .withMessage("Username or email is required")
+          .isEmail()
+          .withMessage("Invalid email")
+          .bail()
+          .custom((value, { req }) => {
+            if (!value.includes("@")) { 
+              if (!/^[a-zA-Z0-9_]+$/.test(value)) {
+                throw new Error("Invalid username");
+              }
+            }
+            return true;
+          }),
+      ];
 }
 
 const resetForgotPasswordValidator=()=>{
     return [
-        body("newPassword")
+        body("password")
                          .notEmpty()
                          .withMessage("Passsword is required")
     ]

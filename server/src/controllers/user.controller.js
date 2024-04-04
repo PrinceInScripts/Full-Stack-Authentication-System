@@ -63,7 +63,7 @@ const userRegistration = AsyncHandler(async (req, res) => {
 
   const mailgenContent = await emailVerificationMailgenContent(
     user.username,
-    `${req.protocol}://${req.get("host")}/api/v1/users/verify-email/${unhashedToken}`
+    `${process.env.FRONTEND_URL}/verify-email/${unhashedToken}`
   );
 
   await sendEmail({
@@ -320,9 +320,7 @@ const forgotPassword = AsyncHandler(async (req, res) => {
 
   const mailgenContent = await forgotPasswordMailgenContent(
     user?.username,
-    `${req.protocol}://${req.get(
-      "host"
-    )}/api/v1/users/reset-password/${unhashedToken}`
+    `${process.env.FRONTEND_URL}/reset-password/${unhashedToken}`
   );
 
   await sendEmail({
@@ -344,7 +342,7 @@ const forgotPassword = AsyncHandler(async (req, res) => {
 
 const resetForgotPassword = AsyncHandler(async (req, res) => {
   const { resetPasswordToken } = req.params;
-  const { newPassword } = req.body;
+  const { password } = req.body;
 
   let hashedToken = crypto
     .createHash("sha256")
@@ -360,7 +358,7 @@ const resetForgotPassword = AsyncHandler(async (req, res) => {
     throw new ApiError(401, "ResetPasswordToken is invalid or expired");
   }
 
-  user.password = newPassword;
+  user.password = password;
   user.forgotPasswordToken = undefined;
   user.forgotPasswordTokenExpiry = undefined;
   await user.save({ validateBeforeSave: false });
