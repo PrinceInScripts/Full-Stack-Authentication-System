@@ -5,13 +5,15 @@ import AboutHero from "../../components/AboutHero/AboutHero";
 import ServiceHero from "../../components/ServiceHero/ServiceHero";
 import ContactComp from "../../components/ContactComp/ContactComp";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getCurrentUser } from "../../redux/slice/authSlice";
 
 function Home() {
   const dispatch=useDispatch()
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   useEffect(()=>{
-    dispatch(getCurrentUser())
+    if(isLoggedIn) dispatch(getCurrentUser());
+    
   },[dispatch])
   return (
     <Layout>
