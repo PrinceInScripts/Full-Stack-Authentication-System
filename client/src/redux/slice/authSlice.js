@@ -65,13 +65,31 @@ export const logoutUser = createAsyncThunk(
   }
 );
 
-export const verifyEmail = createAsyncThunk(
-  'auth/verifyEmail',
-  async (verificationToken, thunkAPI) => {
+// export const verifyEmail = createAsyncThunk(
+//   'auth/verifyEmail',
+//   async (verificationToken, thunkAPI) => {
+//     try {
+//       const response = await axiosInstance.get(`/users/verify-email/${verificationToken}`);
+//       const responseData = response.data;
+//       toast.success(responseData.message);
+//       return responseData;
+//     } catch (error) {
+//       toast.error(error?.response?.data?.message);
+//       return thunkAPI.rejectWithValue(error.response.data);
+//     }
+//   }
+// );
+
+export const forgotPassword = createAsyncThunk(
+  "auth/loginUser",
+  async (forgotPasswordData, thunkAPI) => {
     try {
-      const response = await axiosInstance.get(`/users/verify-email/${verificationToken}`);
-      const responseData = response.data;
-      toast.success(responseData.message);
+      const response = await axiosInstance.post("/users/forgot-password", forgotPasswordData);
+      const responseData = response.data.data;
+      console.log(responseData);
+
+      toast.success("Password reset link sent successfully!");
+
       return responseData;
     } catch (error) {
       toast.error(error?.response?.data?.message);
@@ -79,6 +97,8 @@ export const verifyEmail = createAsyncThunk(
     }
   }
 );
+
+
 
 
 const authSlice = createSlice({
@@ -116,18 +136,18 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       })
-      .addCase(verifyEmail.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(verifyEmail.fulfilled, (state, action) => {
-        state.isLoading = false;
-        // Update state based on the response if needed
-      })
-      .addCase(verifyEmail.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
-      });
+      // .addCase(verifyEmail.pending, (state) => {
+      //   state.isLoading = true;
+      //   state.error = null;
+      // })
+      // .addCase(verifyEmail.fulfilled, (state, action) => {
+      //   state.isLoading = false;
+      //   // Update state based on the response if needed
+      // })
+      // .addCase(verifyEmail.rejected, (state, action) => {
+      //   state.isLoading = false;
+      //   state.error = action.payload;
+      // });
   },
 });
 
