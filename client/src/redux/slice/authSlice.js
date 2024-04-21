@@ -146,7 +146,7 @@ export const updateAvatar=createAsyncThunk("auth/updateAvatar",async (avatar,thu
 
 export const updateProfile=createAsyncThunk("auth/updateProfile",async (data,thunkAPI)=>{
   try {
-    const response=await axiosInstance("/users/update-profile",data);
+    const response=await axiosInstance.post("/users/update-profile",data);
     const responseData=response.data.data;
     setUserLocalStorage(responseData.loggedInUser);
     toast.success("Update Profile Successfully");
