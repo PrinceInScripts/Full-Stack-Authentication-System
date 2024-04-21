@@ -17,47 +17,7 @@ function ProfileComp() {
     })
 
 
-    // async function onAvatarSubmit(e){
-    //     e.preventDefault();
-    //     const uploadImage=e.target.files[0];
-
-    //     if(uploadImage){
-    //         const fileReader=new FileReader();
-    //         fileReader.readAsDataURL(uploadImage);
-    //         fileReader.addEventListener("load",function(){
-    //             setImage({
-    //                 ...image,
-    //                 avatar:uploadImage
-    //             })
-    //         })
-    //     }
-    //     if(image.avatar){
-    //         toast.error("Avatar is required");
-    //         return;
-    //     }
-
-    //     const loadingToastId = toast.loading("Uploading Image...");
-    //    console.log(image.avatar);
-    //     try {
-    //         const formData = new FormData();
-    //         formData.append("avatar", image.avatar);
-
-    //         const response = await dispatch(updateAvatar(formData));
-    //         console.log(response);
-    //         if (response?.payload?.data?.success) {
-    //         }
-    //       } catch (error) {
-    //         toast.error(error?.response?.data?.message);
-    //       } finally {
-    //         toast.dismiss(loadingToastId);
-    //         setImage({
-    //           avatar:""
-    //         });
-    //       }
-    // }
-   
-
-    async function onAvatarSubmit(e) {
+       async function onAvatarSubmit(e) {
         e.preventDefault();
         const uploadImage = e.target.files[0];
     
@@ -72,16 +32,16 @@ function ProfileComp() {
             const imageDataUrl = fileReader.result;
             setImage({
                 ...image,
-                avatar: imageDataUrl // Update state with the data URL of the selected image
+                avatar: imageDataUrl 
             });
     
             const loadingToastId = toast.loading("Uploading Image...");
     
             try {
                 const formData = new FormData();
-                formData.append("avatar", uploadImage); // Append the actual image file, not the data URL
+                formData.append("avatar", uploadImage); 
     
-                const response = await dispatch(updateAvatar(formData)); // Wait for the dispatch to complete
+                const response = await dispatch(updateAvatar(formData)); 
                 console.log(response);
                 if (response.payload?.data?.success) {
                     toast.success("Avatar uploaded successfully");
@@ -91,7 +51,7 @@ function ProfileComp() {
             } finally {
                 toast.dismiss(loadingToastId);
                 setImage({
-                    avatar: "" // Reset the image state after upload
+                    avatar: "" 
                 });
                 navigate("/me")
             }
@@ -159,7 +119,7 @@ function ProfileComp() {
                     className="appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                     id="phone"
                     type="tel"
-                    defaultValue={user.phone} // Update with user data if available
+                    defaultValue={user.phone} 
                 />
             </div>
             <div className="mt-4">

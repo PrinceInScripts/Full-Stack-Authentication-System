@@ -233,7 +233,7 @@ const authSlice = createSlice({
       .addCase(updateAvatar.fulfilled, (state, action) => {
         state.isLoading = false;
         state.user = action.payload;
-        // If needed, update other state properties based on the response
+       
       })
       .addCase(updateAvatar.rejected, (state, action) => {
         state.isLoading = false;
@@ -247,7 +247,6 @@ const authSlice = createSlice({
         console.log("action",action);
         state.isLoading = false;
         state.user = action.payload;
-        // If needed, update other state properties based on the response
       })
       .addCase(updateProfile.rejected, (state, action) => {
         state.isLoading = false;
