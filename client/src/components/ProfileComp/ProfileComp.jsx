@@ -1,12 +1,102 @@
-import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { CgProfile, CgEditBlackPoint } from "react-icons/cg";
 import { FaEdit } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { updateAvatar } from '../../redux/slice/authSlice';
 
 
 function ProfileComp() {
+    const dispatch=useDispatch();
+    const navigate=useNavigate();
     const user = useSelector((state) => state?.auth?.user);
+
+    const [image,setImage]=useState({
+        avatar:"",
+    })
+
+
+    // async function onAvatarSubmit(e){
+    //     e.preventDefault();
+    //     const uploadImage=e.target.files[0];
+
+    //     if(uploadImage){
+    //         const fileReader=new FileReader();
+    //         fileReader.readAsDataURL(uploadImage);
+    //         fileReader.addEventListener("load",function(){
+    //             setImage({
+    //                 ...image,
+    //                 avatar:uploadImage
+    //             })
+    //         })
+    //     }
+    //     if(image.avatar){
+    //         toast.error("Avatar is required");
+    //         return;
+    //     }
+
+    //     const loadingToastId = toast.loading("Uploading Image...");
+    //    console.log(image.avatar);
+    //     try {
+    //         const formData = new FormData();
+    //         formData.append("avatar", image.avatar);
+
+    //         const response = await dispatch(updateAvatar(formData));
+    //         console.log(response);
+    //         if (response?.payload?.data?.success) {
+    //         }
+    //       } catch (error) {
+    //         toast.error(error?.response?.data?.message);
+    //       } finally {
+    //         toast.dismiss(loadingToastId);
+    //         setImage({
+    //           avatar:""
+    //         });
+    //       }
+    // }
    
+
+    async function onAvatarSubmit(e) {
+        e.preventDefault();
+        const uploadImage = e.target.files[0];
+    
+        if (!uploadImage) {
+            toast.error("Avatar is required");
+            return;
+        }
+    
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(uploadImage);
+        fileReader.onload = async function () {
+            const imageDataUrl = fileReader.result;
+            setImage({
+                ...image,
+                avatar: imageDataUrl // Update state with the data URL of the selected image
+            });
+    
+            const loadingToastId = toast.loading("Uploading Image...");
+    
+            try {
+                const formData = new FormData();
+                formData.append("avatar", uploadImage); // Append the actual image file, not the data URL
+    
+                const response = await dispatch(updateAvatar(formData)); // Wait for the dispatch to complete
+                console.log(response);
+                if (response.payload?.data?.success) {
+                    toast.success("Avatar uploaded successfully");
+                }
+            } catch (error) {
+                toast.error(error?.response?.data?.message);
+            } finally {
+                toast.dismiss(loadingToastId);
+                setImage({
+                    avatar: "" // Reset the image state after upload
+                });
+                navigate("/me")
+            }
+        };
+    }
     useEffect(()=>{
      console.log(user);
     },[])
@@ -17,10 +107,11 @@ function ProfileComp() {
            <div className='relative'>
                     {user?.avatar ? 
                         <img src={user.avatar} alt="User Avatar" className="w-10 h-10 rounded-full" /> :
-                        <CgProfile size={50} className="rounded-full" />
+                        <CgProfile size={75} className="rounded-full" />
                     }
-                    <div className="absolute top-10 right-2 transform translate-x-2/4 -translate-y-2/4 bg-white rounded-full p-1 cursor-pointer">
-                        <FaEdit size={15} />
+                    <div className="absolute top-14 right-4 transform translate-x-2/4 -translate-y-2/4 bg-white rounded-full p-1 cursor-pointer">
+                      <label htmlFor="avatar" className='cursor-pointer'><FaEdit size={20} /></label>  
+                      <input type="file" id='avatar' className='hidden' onChange={onAvatarSubmit}/>
                     </div>
             </div>
         </div>

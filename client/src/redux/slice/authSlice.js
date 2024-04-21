@@ -133,9 +133,9 @@ export const getCurrentUser = createAsyncThunk(
 
 export const updateAvatar=createAsyncThunk("auth/updateAvatar",async (avatar,thunkAPI)=>{
   try {
-    const response=await axiosInstance("/users/avatar",avatar);
+    const response=await axiosInstance.post("/users/avatar",avatar);
     const responseData=response.data.data;
-    setUserLocalStorage(responseData.loggedInUser);
+    setUserLocalStorage(responseData);
     toast.success("Update Profile Image Successfully");
     return responseData;
   } catch (error) {
@@ -232,7 +232,7 @@ const authSlice = createSlice({
       })
       .addCase(updateAvatar.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.user = action.payload.loggedInUser;
+        state.user = action.payload;
         // If needed, update other state properties based on the response
       })
       .addCase(updateAvatar.rejected, (state, action) => {
@@ -244,8 +244,9 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(updateProfile.fulfilled, (state, action) => {
+        console.log("action",action);
         state.isLoading = false;
-        state.user = action.payload.loggedInUser;
+        state.user = action.payload;
         // If needed, update other state properties based on the response
       })
       .addCase(updateProfile.rejected, (state, action) => {

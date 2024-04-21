@@ -418,14 +418,16 @@ const getCurrentUser = AsyncHandler(async (req, res) => {
 });
 
 const updateUserAvatar=AsyncHandler(async (req,res)=>{
+  console.log("hii");
   const avatarLocalPath=req.file?.path;
+  console.log(avatarLocalPath);
 
   if(!avatarLocalPath){
     throw new ApiError(400,"Avatar file is missing")
   }
 
   const avatar=await uploadCloudinary(avatarLocalPath)
-
+  console.log(avatar);
   if(!avatar){
     throw new ApiError(400,"Error while uploading on avatar file")
   }
