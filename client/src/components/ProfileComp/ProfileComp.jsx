@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { CgProfile, CgEditBlackPoint } from "react-icons/cg";
-import { FaEdit } from "react-icons/fa";
-import { useNavigate } from 'react-router-dom';
+import { FaEdit, FaRegTimesCircle, FaTimesCircle } from "react-icons/fa";
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { updateAvatar, updateProfile } from '../../redux/slice/authSlice';
 
@@ -21,6 +21,9 @@ function ProfileComp() {
         lastName: user.lastName,
         username: user.username
     });
+
+    const [hoverEmail, setHoverEmail] = useState(false);
+
 
     async function onAvatarSubmit(e) {
         e.preventDefault();
@@ -91,8 +94,8 @@ function ProfileComp() {
         
     }
     return (
-        <div className="px-10 py-6 flex flex-col gap-5 bg-gray-200">
-           <div className="flex items-center space-x-4">
+        <div className="px-10 py-6 w-[80%] flex flex-col gap-5 bg-gray-100">
+           <div className="flex items-center justify-between space-x-4 w-full">
            <div className='relative'>
                     {user?.avatar ? 
                         <img src={user.avatar} alt="User Avatar" className="w-20 h-20 rounded-full" /> :
@@ -103,10 +106,13 @@ function ProfileComp() {
                       <input type="file" id='avatar' className='hidden' onChange={onAvatarSubmit}/>
                     </div>
             </div>
+            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-4">
+                    Delete Account
+                </button>
         </div>
 
-            <div className="flex items-center space-x-4">
-                <div>
+            <div className="flex items-center space-x-4 w-full">
+                <div className='w-full'>
                     <label className="block text-gray-700 font-bold mb-2" htmlFor="firstName">
                         First Name
                     </label>
@@ -120,7 +126,7 @@ function ProfileComp() {
                         defaultValue={user.firstName} 
                     />
                 </div>
-                <div>
+                <div className='w-full'>
                     <label className="block text-gray-700 font-bold mb-2" htmlFor="lastName">
                         Last Name *
                     </label>
@@ -135,38 +141,59 @@ function ProfileComp() {
                     />
                 </div>
             </div>
-            <div className="mt-4">
-                <label className="block text-gray-700 font-bold mb-2" htmlFor="email">
-                    Email
-                </label>
-                <input
-                    className="appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-                    id="email"
-                    type="email"
-                    defaultValue={user.email} 
-                />
+            <div className="flex items-center space-x-4 w-full">
+                {/* Email Input */}
+                <div className="w-full">
+                    <div className="mt-4 relative">
+                        <label className="block text-gray-700 font-bold mb-2" htmlFor="email">
+                            Email
+                        </label>
+                        <input
+                            className="appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                            id="email"
+                            type="email"
+                            defaultValue={user.email} 
+                            readOnly={hoverEmail} // Set readOnly based on hoverEmail state
+                            onMouseEnter={() => setHoverEmail(true)}
+                            onMouseLeave={() => setHoverEmail(false)}
+                        />
+                        {/* Not-allowed icon */}
+                        {hoverEmail && (
+                            <FaTimesCircle className="absolute top-3 right-3 text-red-500 cursor-not-allowed" />
+                        )}
+                    </div>
+                </div>
+                {/* Username Input */}
+                <div className="w-full">
+                    <div className="mt-4">
+                        <label className="block text-gray-700 font-bold mb-2" htmlFor="username">
+                            Username
+                        </label>
+                        <input
+                            className="appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                            id="username"
+                            name="username"
+                            type="text"
+                            onChange={handleInput}
+                            value={profileDetail.username}
+                            defaultValue={user.username} 
+                        />
+                    </div>
+                </div>
             </div>
-            <div className="mt-4">
-                <label className="block text-gray-700 font-bold mb-2" htmlFor="username">
-                   Username
-                </label>
-                <input
-                    className="appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-                    id="username"
-                    name="username"
-                    type="text"
-                    onChange={handleInput}
-                    value={profileDetail.username}
-                    defaultValue={user.username} 
-                />
-            </div>
+
+           
+            {user?.isEmailVerified ? <p className='text-center text-red-600 font-semibold font-serif'>Please First Verify Your Email ...</p>: <p></p>}
+           
+           
+           
             <div className="mt-4">
                 <button onClick={onHandleSubmit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                     Save changes
                 </button>
-                <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-4">
-                    Delete Account
-                </button>
+               
+               
+               
             </div>
         </div>
     )
