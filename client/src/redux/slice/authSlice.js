@@ -148,7 +148,7 @@ export const updateProfile=createAsyncThunk("auth/updateProfile",async (data,thu
   try {
     const response=await axiosInstance.post("/users/update-profile",data);
     const responseData=response.data.data;
-    setUserLocalStorage(responseData.loggedInUser);
+    setUserLocalStorage(responseData);
     toast.success("Update Profile Successfully");
     return responseData;
   } catch (error) {
@@ -244,7 +244,6 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(updateProfile.fulfilled, (state, action) => {
-        console.log("action",action);
         state.isLoading = false;
         state.user = action.payload;
       })

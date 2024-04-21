@@ -83,11 +83,7 @@ function ProfileComp() {
             toast.error(error?.response?.data?.message);
         } finally{
             toast.dismiss(loadingToastId)
-            setProfileDetail({
-                firstName: user.firstName,
-        lastName: user.lastName,
-        username: user.username
-            })
+            
 
             navigate("/me")
         }
@@ -117,6 +113,7 @@ function ProfileComp() {
                     <input
                         className="appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                         id="firstName"
+                        name='firstName'
                         type="text"
                         onChange={handleInput}
                         value={profileDetail.firstName}
@@ -131,6 +128,7 @@ function ProfileComp() {
                         className="appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                         id="lastName"
                         type="text"
+                        name='lastName'
                         onChange={handleInput}
                         value={profileDetail.lastName}
                         defaultValue={user.lastName} 
@@ -149,12 +147,13 @@ function ProfileComp() {
                 />
             </div>
             <div className="mt-4">
-                <label className="block text-gray-700 font-bold mb-2" htmlFor="phone">
+                <label className="block text-gray-700 font-bold mb-2" htmlFor="username">
                    Username
                 </label>
                 <input
                     className="appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                     id="username"
+                    name="username"
                     type="text"
                     onChange={handleInput}
                     value={profileDetail.username}
