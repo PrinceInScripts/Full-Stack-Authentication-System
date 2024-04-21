@@ -10,6 +10,7 @@ function Navbar() {
   const isLoggedIn = useSelector((state) => state?.auth?.isLoggedIn);
   const isAdmin = useSelector((state) => state?.auth?.isAdmin);
   const isSuperAdmin = useSelector((state) => state?.auth?.isSuperAdmin);
+  const user=useSelector((state)=>state?.auth?.user)
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -62,13 +63,13 @@ function Navbar() {
             <li>
               <Link to={"/"}>Home</Link>
             </li>
-            {isLoggedIn && (
+            {isLoggedIn && (user.role!=='USER') && (
               <li>
                 <Link to={"/dashboard"}>Dashboard</Link>
               </li>
             )}
 
-            {isLoggedIn && (
+            {isLoggedIn && (user.role!=='USER') && (
               <li>
                 <details>
                   <summary>Taking Action</summary>
@@ -143,13 +144,13 @@ function Navbar() {
           <li>
             <Link to={"/"}>Home</Link>
           </li>
-          {isLoggedIn && (
+          {isLoggedIn && (user.role!=='USER') && (
             <li>
               <Link to={"/dashboard"}>Dashboard</Link>
             </li>
           )}
 
-          {isLoggedIn && (
+          {isLoggedIn && (user.role!=='USER') && (
             <li>
               <details>
                 <summary>Taking Action</summary>
