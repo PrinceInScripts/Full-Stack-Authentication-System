@@ -25,7 +25,7 @@ function App() {
       <Route path="/forgot-password" element={<ForgotPassword/>}/>
       <Route path="/reset-password/:resetPasswordToken" element={<ResetPassword/>}/>
       <Route path="/verify-email/:verificationToken" element={<EmailVerification/>}/>
-      <Route path="/me" element={<ProfileComp/>}/>
+      <Route path="/me" element={<Profiles/>}/>
     </Routes>
   );
 }
