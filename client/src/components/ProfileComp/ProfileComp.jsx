@@ -114,15 +114,16 @@ function ProfileComp() {
            <div className="flex items-center justify-between space-x-4 w-full">
            <div className='relative'>
                     {user?.avatar ? 
-                        <img src={user.avatar} alt="User Avatar" className="w-20 h-20 rounded-full" /> :
+                        <img src={user.avatar} alt="User Avatar" className="w-[75px] h-[75px] rounded-full" /> :
                         <CgProfile size={75} className="rounded-full" />
                     }
                     <div className="absolute top-14 right-4 transform translate-x-2/4 -translate-y-2/4 bg-white rounded-full p-1 cursor-pointer">
                       <label htmlFor="avatar" className='cursor-pointer'><FaEdit size={20} /></label>  
                       <input type="file" id='avatar' className='hidden' onChange={onAvatarSubmit}/>
                     </div>
+                    <p className='text-center text-black font-serif font-bold mt-2'>{user.role}</p>
             </div>
-            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-4">
+             <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-4">
                     Delete Account
                 </button>
         </div>
