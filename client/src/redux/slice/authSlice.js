@@ -114,6 +114,8 @@ export const resetPassword = createAsyncThunk(
   }
 );
 
+
+
 export const getCurrentUser = createAsyncThunk(
   "auth/getCurrentUser",
   async (_, thunkAPI) => {
@@ -128,6 +130,32 @@ export const getCurrentUser = createAsyncThunk(
     }
   }
 );
+
+export const updateAvatar=createAsyncThunk("auth/updateAvatar",async (avatar,thunkAPI)=>{
+  try {
+    const response=await axiosInstance("/users/avatar",avatar);
+    const responseData=response.data.data;
+    setUserLocalStorage(responseData.loggedInUser);
+    toast.success("Update Profile Image Successfully");
+    return responseData;
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+      return thunkAPI.rejectWithValue(error.response.data);
+  }
+})
+
+export const updateProfile=createAsyncThunk("auth/updateProfile",async (data,thunkAPI)=>{
+  try {
+    const response=await axiosInstance("/users/update-profile",data);
+    const responseData=response.data.data;
+    setUserLocalStorage(responseData.loggedInUser);
+    toast.success("Update Profile Successfully");
+    return responseData;
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+      return thunkAPI.rejectWithValue(error.response.data);
+  }
+})
 
 const authSlice = createSlice({
   name: "auth",
@@ -195,6 +223,32 @@ const authSlice = createSlice({
         state.isUser = action.payload.role === "USER";
       })
       .addCase(getCurrentUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(updateAvatar.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(updateAvatar.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload.loggedInUser;
+        // If needed, update other state properties based on the response
+      })
+      .addCase(updateAvatar.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(updateProfile.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(updateProfile.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload.loggedInUser;
+        // If needed, update other state properties based on the response
+      })
+      .addCase(updateProfile.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       })
