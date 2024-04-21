@@ -83,6 +83,20 @@ export const verifyEmail = createAsyncThunk(
     }
   }
 );
+export const resendVerifyEmail = createAsyncThunk(
+  'auth/resendVerifyEmail',
+  async (_, thunkAPI) => {
+    try {
+      const response = await axiosInstance.post(`/users/resend-email-verification`);
+      const responseData = response.data;
+      toast.success(responseData.message);
+      return responseData;
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
 
 export const forgotPassword = createAsyncThunk(
   "auth/forgotPassword",

@@ -218,7 +218,7 @@ const verifyEmail = AsyncHandler(async (req, res) => {
 
 const resendEmailVerification = AsyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
-
+  
   if (!user) {
     throw new ApiError(404, "User does not exist");
   }
@@ -233,7 +233,7 @@ const resendEmailVerification = AsyncHandler(async (req, res) => {
 
   const mailgenContent = await emailVerificationMailgenContent(
     user?.username,
-    `${req.protocol}://${req.get("host")}/api/v1/users/verify-email/${unhashedToken}`
+    `${process.env.FRONTEND_URL}/verify-email/${unhashedToken}`
   );
 
   await sendEmail({

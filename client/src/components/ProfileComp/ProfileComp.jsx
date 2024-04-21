@@ -4,7 +4,7 @@ import { CgProfile, CgEditBlackPoint } from "react-icons/cg";
 import { FaEdit, FaRegTimesCircle, FaTimesCircle } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { updateAvatar, updateProfile } from '../../redux/slice/authSlice';
+import { resendVerifyEmail, updateAvatar, updateProfile } from '../../redux/slice/authSlice';
 
 
 function ProfileComp() {
@@ -92,6 +92,22 @@ function ProfileComp() {
         }
         
         
+    }
+
+    async function resendEmail(){
+        const loadingToastId=toast.loading("Sending Verification On Gmail...")
+
+        try {
+            const response=await dispatch(resendVerifyEmail());
+
+        } catch (error) {
+            toast.error(error?.response?.data?.message);
+        } finally{
+            toast.dismiss(loadingToastId)
+            
+
+            navigate("/me")
+        }
     }
     return (
         <div className="px-10 py-6 w-[80%] flex flex-col gap-5 bg-gray-100">
@@ -183,16 +199,18 @@ function ProfileComp() {
             </div>
 
            
-            {user?.isEmailVerified ? <p className='text-center text-red-600 font-semibold font-serif'>Please First Verify Your Email ...</p>: <p></p>}
+            {user?.isEmailVerified ? <p ></p>: <p className='text-center text-red-600 font-semibold font-serif'>Please First Verify Your Email (go to your Gmail Inbox and If Verification is expired then resend verificationToken)...</p>}
            
            
            
-            <div className="mt-4">
+            <div className="mt-4 space-x-4">
                 <button onClick={onHandleSubmit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                     Save changes
                 </button>
                
-               
+               {user?.isEmailVerified ? "":  <button onClick={resendEmail} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    Resend Email Verification
+                </button>}
                
             </div>
         </div>
