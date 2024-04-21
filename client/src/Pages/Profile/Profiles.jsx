@@ -11,7 +11,7 @@ function Profiles() {
     
   return (
     <Layout>
-      hi
+      
     </Layout>
   )
 }

@@ -11,6 +11,7 @@ import ForgotPassword from "./Pages/forgotPassword/forgotPassword";
 import ResetPassword from "./Pages/resertPassword/ResetPassword";
 import EmailVerification from "./Pages/EmailVerification/EmailVerification";
 import Profiles from "./Pages/Profile/Profiles";
+import ProfileComp from "./components/ProfileComp/ProfileComp";
 
 function App() {
   return (
@@ -24,7 +25,7 @@ function App() {
       <Route path="/forgot-password" element={<ForgotPassword/>}/>
       <Route path="/reset-password/:resetPasswordToken" element={<ResetPassword/>}/>
       <Route path="/verify-email/:verificationToken" element={<EmailVerification/>}/>
-      <Route path="/me" element={<Profiles/>}/>
+      <Route path="/me" element={<ProfileComp/>}/>
     </Routes>
   );
 }
