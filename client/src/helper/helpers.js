@@ -1,5 +1,3 @@
-import mongoose from "mongoose";
-
 export const getPaginatePayload = (dataArray, page, limit) => {
     const startPosition = +(page - 1) * limit;
     const totalItems = dataArray.length;

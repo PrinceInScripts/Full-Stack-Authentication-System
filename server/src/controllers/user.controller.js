@@ -537,33 +537,50 @@ const deleteUserByAdmin=AsyncHandler(async (req,res)=>{
            )
 })
 
-const getAllUser=AsyncHandler(async (req,res)=>{
-    const {page=1,limit=10}=req.query;
+const getAllUser = AsyncHandler(async (req, res) => {
+  const { page = 1, limit = 10 } = req.query;
 
-    const allUserAggregate=await User.aggregate([{$match:{}}])
+  try {
+    // Count total users
+    const totalUsers = await User.countDocuments();
 
-    const allUser=await User.aggregatePaginate(
-      allUserAggregate,
-      getMongoosePaginationOption({
-        page,
-        limit,
-        customLabels:{
-          totalDocs:"totalUsers",
-          docs:"allUser"
-        }
-      })
-    )
+    // Calculate total pages
+    const totalPages = Math.ceil(totalUsers / limit);
 
-     return res 
-              .status(200)
-              .json(
-                new ApiResponse(
-                  200,
-                  allUser,
-                  "All User detials fetched successfully"
-                )
-              )
-})
+    // Calculate pagination options for MongoDB aggregation
+    const pipeline = [
+      // Match all users
+      { $match: {} },
+      // Skip documents based on pagination
+      { $skip: (page - 1) * limit },
+      // Limit the number of documents returned
+      { $limit: parseInt(limit) },
+      // Your other aggregation stages, if any
+    ];
+
+    // Execute the aggregation pipeline
+    const allUserAggregate = await User.aggregate(pipeline);
+
+    return res.status(200).json(
+      new ApiResponse(
+        200,
+        {
+          allUser: allUserAggregate,
+          totalUsers: totalUsers,
+          totalPages: totalPages,
+          currentPage: parseInt(page),
+          limit: parseInt(limit),
+        },
+        "All User details fetched successfully"
+      )
+    );
+  } catch (error) {
+    console.error("Error fetching user details:", error);
+    return res.status(500).json(
+      new ApiResponse(500, null, "Internal server error")
+    );
+  }
+});
 
 const handleSocialLogin=AsyncHandler(async (req,res)=>{
   const user=await User.findById(req.user?._id)

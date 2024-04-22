@@ -192,16 +192,17 @@ export const updateProfile=createAsyncThunk("auth/updateProfile",async (data,thu
   }
 })
 
-export const getAllUser=createAsyncThunk("auth/getAllUsers",async(_,thunkAPI)=>{
-  try {
-    const response=await axiosInstance.get("/users/all-user");
-    const responseData=response.data.data;
-    return responseData;
-  } catch (error) {
-    toast.error(error?.response?.data?.message);
+export const getAllUser = createAsyncThunk(
+  'users/fetchUserList',
+  async ({ page = 1, limit = 10 }, thunkAPI) => {
+    try {
+      const response = await axiosInstance.get(`/users/all-user/?page=${page}&limit=${limit}`);
+      return response.data; // Assuming the response contains the paginated user data
+    } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
+    }
   }
-})
+);
 
 const authSlice = createSlice({
   name: "auth",
