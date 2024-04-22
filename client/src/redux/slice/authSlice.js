@@ -17,6 +17,7 @@ const initialState = {
   error: null,
   user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null,
   accessToken: localStorage.getItem("accessToken") || null,
+  refreshToken: localStorage.getItem("refreshToken") || null,
   role: localStorage.getItem("role") || null,
   isAdmin: localStorage.getItem("isAdmin") || false,
   isSuperAdmin: localStorage.getItem("isSuperAdmin") || false,
@@ -45,6 +46,7 @@ export const loginUser = createAsyncThunk(
       const responseData = response.data.data;
       setUserLocalStorage(responseData.loggedInUser);
       localStorage.setItem("accessToken", responseData.accessToken);
+      localStorage.setItem("refreshToken", responseData.refreshToken);
       localStorage.setItem("isLoggedIn", true);
       toast.success("Logged in successfully");
       return responseData;
@@ -284,6 +286,10 @@ const authSlice = createSlice({
       })
       .addCase(refreshAccessToken.fulfilled, (state, action) => {
         state.accessToken = action.payload.accessToken;
+      })
+      .addCase(refreshAccessToken.fulfilled, (state, action) => {
+        state.accessToken = action.payload.accessToken;
+        localStorage.setItem("accessToken", action.payload.accessToken);
       })
   },
 });
