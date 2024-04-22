@@ -192,6 +192,17 @@ export const updateProfile=createAsyncThunk("auth/updateProfile",async (data,thu
   }
 })
 
+export const getAllUser=createAsyncThunk("auth/getAllUsers",async(_,thunkAPI)=>{
+  try {
+    const response=await axiosInstance.get("/users/all-user");
+    const responseData=response.data.data;
+    return responseData;
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+      return thunkAPI.rejectWithValue(error.response.data);
+  }
+})
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -292,6 +303,10 @@ const authSlice = createSlice({
         state.accessToken = action.payload.accessToken;
         localStorage.setItem("accessToken", action.payload.accessToken);
       })
+      .addCase(getAllUser.fulfilled, (state, action) => {
+        state.allUsers = action.payload;
+        localStorage.setItem("allUsers", JSON.stringify(action.payload)); 
+      });
   },
 });
 
