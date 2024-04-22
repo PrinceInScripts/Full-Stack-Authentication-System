@@ -23,6 +23,8 @@ const initialState = {
   isSuperAdmin: localStorage.getItem("isSuperAdmin") || false,
   isManager: localStorage.getItem("isManager") || false,
   isUser: localStorage.getItem("isUser") || false,
+  allUsers: [], 
+  loginTime:localStorage.getItem("loginTime")|| null
 };
 
 // Thunks
@@ -205,6 +207,8 @@ const authSlice = createSlice({
         state.isLoggedIn = true;
         state.user = action.payload.loggedInUser;
         state.accessToken = action.payload.accessToken;
+        state.loginTime = Date.now(); // Update the login time
+        localStorage.setItem("loginTime", state.loginTime);
         const userRole = action.payload.loggedInUser.role;
         state.role = userRole;
         state.isAdmin = userRole === "ADMIN";

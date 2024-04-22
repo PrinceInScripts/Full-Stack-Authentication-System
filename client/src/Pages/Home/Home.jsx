@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getCurrentUser, refreshAccessToken } from "../../redux/slice/authSlice";
+import { useNavigate } from "react-router-dom";
 import Hero from "../../components/Hero/Hero";
 import Layout from "../../components/Layout/Layout";
 import AboutHero from "../../components/AboutHero/AboutHero";
 import ServiceHero from "../../components/ServiceHero/ServiceHero";
 import ContactComp from "../../components/ContactComp/ContactComp";
-import { useDispatch, useSelector } from "react-redux";
-import { getCurrentUser, refreshAccessToken } from "../../redux/slice/authSlice";
-import { useNavigate } from "react-router-dom";
 
 function Home() {
   const dispatch = useDispatch();
@@ -14,35 +14,29 @@ function Home() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const [isLoading, setIsLoading] = useState(false);
 
-  const isTokenExpired = () => {
-    const expiryTimestamp = parseInt(localStorage.getItem("tokenExpiry"), 10);
-    return !expiryTimestamp || Date.now() >= expiryTimestamp;
-  };
-
   const logout = () => {
     localStorage.removeItem("accessToken");
-    localStorage.removeItem("tokenExpiry");
+    localStorage.removeItem("loginTime");
     navigate("/login");
   };
 
-  const handleRefreshToken = async () => {
-    try {
-      setIsLoading(true);
-      await dispatch(refreshAccessToken());
-      await dispatch(getCurrentUser());
-    } catch (error) {
-      logout();
-    } finally {
-      setIsLoading(false);
-    }
+  const calculateTimeDifference = () => {
+    const loginTime = parseInt(localStorage.getItem("loginTime"), 10);
+    
+    const currentTime = Date.now();
+    const timeDifference = currentTime - loginTime;
+    const twentyFourHours = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+    
+    return timeDifference >= twentyFourHours;
   };
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       try {
-        setIsLoading(true);
-        if (isLoggedIn && isTokenExpired()) {
-          await handleRefreshToken();
+        if (isLoggedIn && calculateTimeDifference()) {
+          const newLoginTime = await handleRefreshToken();
+          localStorage.setItem("loginTime", newLoginTime);
         } else if (isLoggedIn) {
           await dispatch(getCurrentUser());
         }
@@ -57,21 +51,34 @@ function Home() {
     fetchData();
   }, [dispatch, isLoggedIn]);
 
+  const handleRefreshToken = async () => {
+    try {
+      const newLoginTime = Date.now();
+      await dispatch(refreshAccessToken());
+      await dispatch(getCurrentUser());
+      return newLoginTime;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+
+
   return (
     <Layout>
-      <div className="flex flex-col min-h-screen">
-        {isLoading ? (
-          <p>Loading...</p>
-        ) : (
-          <>
-            <Hero />
-            <AboutHero />
-            <ServiceHero />
-            <ContactComp />
-          </>
-        )}
-      </div>
-    </Layout>
+    <div className="flex flex-col min-h-screen">
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <>
+          <Hero />
+          <AboutHero />
+          <ServiceHero />
+          <ContactComp />
+        </>
+      )}
+    </div>
+  </Layout>
   );
 }
 
