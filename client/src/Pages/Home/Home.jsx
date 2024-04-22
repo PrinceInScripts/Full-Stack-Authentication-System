@@ -6,7 +6,7 @@ import ServiceHero from "../../components/ServiceHero/ServiceHero";
 import ContactComp from "../../components/ContactComp/ContactComp";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCurrentUser } from "../../redux/slice/authSlice";
+import { getCurrentUser, refreshAccessToken } from "../../redux/slice/authSlice";
 import { useNavigate } from "react-router-dom";
 
 function Home() {
@@ -15,34 +15,34 @@ function Home() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   const isTokenExpired = () => {
-    const accessToken = localStorage.getItem('accessToken');
-    if (!accessToken) {
-        return true; 
+    const expiryTimestamp = parseInt(localStorage.getItem("tokenExpiry"), 10);
+    console.log(expiryTimestamp);
+    if (!expiryTimestamp) {
+      
+      return true;
     }
-    const expiryTimestamp = parseInt(localStorage.getItem('tokenExpiry'), 10);
     const currentTime = Date.now();
     return currentTime >= expiryTimestamp;
   };
 
   const logout = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('tokenExpiry');
-  
-   navigate("/login")
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("tokenExpiry");
+    navigate("/login");
   };
 
   useEffect(() => {
     if (isLoggedIn && isTokenExpired()) {
-      logout();
+      dispatch(refreshAccessToken())
+        .then(() => {
+          dispatch(getCurrentUser());
+        })
+        .catch(() => {
+          logout();
+        });
+    } else if (isLoggedIn) {
+      dispatch(getCurrentUser());
     }
-    
-    const intervalId = setInterval(() => {
-      if (isLoggedIn && isTokenExpired()) {
-        logout();
-      }
-    }, 1000 * 60); 
-
-    return () => clearInterval(intervalId);
   }, [dispatch, isLoggedIn]); 
 
   useEffect(() => {

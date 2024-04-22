@@ -144,6 +144,23 @@ export const getCurrentUser = createAsyncThunk(
     }
   }
 );
+export const refreshAccessToken = createAsyncThunk(
+  "auth/refreshAccessToken",
+  async (_, thunkAPI) => {
+    try {
+      const response = await axiosInstance.post("/users/refresh-token");
+      const responseData = response.data.data;
+      
+      localStorage.setItem("accessToken", responseData.accessToken);
+      
+      
+      return responseData;
+    } catch (error) {
+      toast.error("Failed to refresh Access Token");
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
 
 export const updateAvatar=createAsyncThunk("auth/updateAvatar",async (avatar,thunkAPI)=>{
   try {
@@ -264,6 +281,9 @@ const authSlice = createSlice({
       .addCase(updateProfile.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
+      })
+      .addCase(refreshAccessToken.fulfilled, (state, action) => {
+        state.accessToken = action.payload.accessToken;
       })
   },
 });
