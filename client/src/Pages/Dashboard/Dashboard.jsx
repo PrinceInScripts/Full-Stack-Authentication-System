@@ -92,7 +92,7 @@ const DashboardOverview = () => {
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
-    }
+    } 
   };
 
   const handlePrevPage = () => {
