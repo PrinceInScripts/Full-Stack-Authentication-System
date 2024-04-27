@@ -143,7 +143,7 @@ export const getCurrentUser = createAsyncThunk(
       setUserLocalStorage(responseData);
       return responseData;
     } catch (error) {
-      toast.error("Failed to get current user data");
+      // toast.error("Failed to get current user data");
       return thunkAPI.rejectWithValue(error.response.data);
     }
   }
