@@ -61,36 +61,81 @@
 
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllUser } from '../../redux/slice/authSlice';
+import { allUser, getAllUser } from '../../redux/slice/authSlice';
 import { getMongoosePaginationOption, getPaginatePayload } from '../../helper/helpers';
 
 const DashboardOverview = () => {
     const userRole = useSelector((state) => state.auth.role);
     const [userList, setUserList] = useState([]);
+    const [allUsers,setAllUsers]=useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     const [totalUsers,setTotalUsers]=useState(0);
+    const [adminTotal,setAdminTotal]=useState(0);
+    const [superAdminTotal,setSuperAdminTotal]=useState(0);
+    const [managerTotal,setManagerTotal]=useState(0);
+    const [userTotal,setUserTotal]=useState(0);
     const dispatch = useDispatch(); 
   
     useEffect(() => {
       fetchUsers();
-      fetchData();
     }, [userRole, currentPage]); 
 
-    const fetchData=()=>{
-      // setTotalUsers(userList)
-      console.log(userList.length);
-    }
+    useEffect(()=>{
+      fetchData();
+    },[allUsers])
+
+    
+    const fetchData = () => {
+      if (allUsers.length > 0) {
+        let adminCount = 0,
+          superAdminCount = 0,
+          managerCount = 0,
+          userCount = 0;
+    
+        allUsers.forEach((user) => {
+          switch (user.role) {
+            case "ADMIN":
+              adminCount++;
+              break;
+            case "SUPERADMIN":
+              superAdminCount++;
+              break;
+            case "MANAGER":
+              managerCount++;
+              break;
+            case "USER":
+              userCount++;
+              break;
+            default:
+              break;
+          }
+        });
+    
+        // Set counts and total users after calculating
+        setAdminTotal(adminCount);
+        setSuperAdminTotal(superAdminCount);
+        setManagerTotal(managerCount);
+        setUserTotal(userCount);
+        setTotalUsers(allUsers.length);
+        
+      }
+
+       
+
+    };
   
     const fetchUsers =async () => {
       const paginationOptions = getMongoosePaginationOption({
-        page: currentPage,
+        page: currentPage, 
         limit: 10,
       });
   
       const response =await dispatch(getAllUser(paginationOptions)) // Pass pagination options as payload
-      console.log(response);
+      const response1 =await dispatch(allUser()) // Pass pagination options as payload
+     console.log(response);
       setUserList(response.payload.data.allUser)
+      setAllUsers(response1.payload.data)
       setTotalPages(response.payload.data.totalPages)
     };
 
@@ -106,10 +151,22 @@ const DashboardOverview = () => {
     }
   };
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const options = { day: '2-digit', month: 'short', year: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+  };
+
   return (
     <div>
       <h2>Dashboard Overview</h2>
-     
+     <div>
+      <p>{adminTotal}</p>
+      <p>{totalUsers}</p>
+      <p>{userTotal}</p>
+      <p>{superAdminTotal}</p>
+      <p>{managerTotal}</p>
+     </div>
       <table>
         <thead>
           <tr>
@@ -125,7 +182,7 @@ const DashboardOverview = () => {
               <td>{user.username}</td>
               <td>{user.email}</td>
               <td>{user.role}</td>
-              <td>{user.registrationDate}</td>
+              <td>{formatDate(user.createdAt)}</td>
             </tr>
           ))}
         </tbody>

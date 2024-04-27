@@ -24,6 +24,7 @@ const initialState = {
   isManager: localStorage.getItem("isManager") || false,
   isUser: localStorage.getItem("isUser") || false,
   allUsers: [], 
+  allUser: [], 
   loginTime:localStorage.getItem("loginTime")|| null
 };
 
@@ -203,6 +204,17 @@ export const getAllUser = createAsyncThunk(
     }
   }
 );
+export const allUser = createAsyncThunk(
+  'users/fetchUsers',
+  async (_, thunkAPI) => {
+    try {
+      const response = await axiosInstance.get(`/users/all-users`);
+      return response.data; 
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
 
 const authSlice = createSlice({
   name: "auth",
@@ -307,6 +319,10 @@ const authSlice = createSlice({
       .addCase(getAllUser.fulfilled, (state, action) => {
         state.allUsers = action.payload;
         localStorage.setItem("allUsers", JSON.stringify(action.payload)); 
+      })
+      .addCase(allUser.fulfilled, (state, action) => {
+        state.allUser = action.payload;
+        localStorage.setItem("allUser", JSON.stringify(action.payload)); 
       });
   },
 });
