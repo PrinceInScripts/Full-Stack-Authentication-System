@@ -98,49 +98,9 @@ const DashboardOverview = () => {
 
   return (
     <>
-    <div className='bg-blue-100 w-full min-h-screen px-40'>
+    <div className=''>
       <h1>Dashboard</h1>
-      <div className='flex justify-between items-center'>
-        <div className='bg-white text-center px-4 py-2 rounded-lg flex flex-col items-center'>
-          <p className='font-sans font-semibold text-sm'>Total Users</p> 
-          <p className='font-serif font-bold'>{totalUsers}</p>
-        </div>
-        <div className='bg-white text-center px-4 py-2 rounded-lg flex flex-col items-center'>
-          <p className='font-sans font-semibold text-sm'> Admin</p> 
-          <p className='font-serif font-bold'>{adminTotal}</p>
-        </div>
-        <div className='bg-white text-center px-4 py-2 rounded-lg flex flex-col items-center'>
-          <p className='font-sans font-semibold text-sm'>Super Admin</p> 
-          <p className='font-serif font-bold'>{superAdminTotal}</p>
-        </div>
-        <div className='bg-white text-center px-4 py-2 rounded-lg flex flex-col items-center'>
-          <p className='font-sans font-semibold text-sm'>Manager</p> 
-          <p className='font-serif font-bold'>{managerTotal}</p>
-        </div>
-        <div className='bg-white text-center px-4 py-2 rounded-lg flex flex-col items-center'>
-          <p className='font-sans font-semibold text-sm'>Users</p> 
-          <p className='font-serif font-bold'>{userTotal}</p>
-        </div>
-        
-      </div>
-
-      <table className="w-full text-left text-sm font-light">
-      <thead className="text-xs uppercase text-black">
-        <tr>
-          <th className="py-3 px-6">Name</th>
-          <th className="py-3 px-6">Role</th>
-          <th className="py-3 px-6">Projects</th>
-          <th className="py-3 px-6">Status</th>
-          <th className="py-3 px-6">Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        
-      </tbody>
-    </table>
     </div>
-
-   
     </>
     // <div>
     //   <h2>Dashboard Overview</h2>
