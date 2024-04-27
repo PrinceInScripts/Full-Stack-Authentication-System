@@ -69,20 +69,25 @@ const DashboardOverview = () => {
     const [userList, setUserList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
-    const dispatch = useDispatch(); // Get dispatch function
+    const [totalUsers,setTotalUsers]=useState(0);
+    const dispatch = useDispatch(); 
   
     useEffect(() => {
       fetchUsers();
-    }, [userRole, currentPage]); // Fetch users whenever userRole or currentPage changes
+      fetchData();
+    }, [userRole, currentPage]); 
+
+    const fetchData=()=>{
+      // setTotalUsers(userList)
+      console.log(userList.length);
+    }
   
     const fetchUsers =async () => {
-      // Calculate pagination options using the utility function
       const paginationOptions = getMongoosePaginationOption({
         page: currentPage,
         limit: 10,
       });
   
-      // Dispatch the getAllUser thunk
       const response =await dispatch(getAllUser(paginationOptions)) // Pass pagination options as payload
       console.log(response);
       setUserList(response.payload.data.allUser)
@@ -104,11 +109,7 @@ const DashboardOverview = () => {
   return (
     <div>
       <h2>Dashboard Overview</h2>
-      {/* Display charts and graphs for key metrics */}
-      <div>Insert charts/graphs here</div>
-
-      <h2>User Information</h2>
-      {/* Display user information table */}
+     
       <table>
         <thead>
           <tr>
@@ -130,12 +131,13 @@ const DashboardOverview = () => {
         </tbody>
       </table>
 
-      {/* Pagination controls */}
-      <div>
-        <button onClick={handlePrevPage} disabled={currentPage === 1}>Prev</button>
-        <span>{`Page ${currentPage} of ${totalPages}`}</span>
-        <button onClick={handleNextPage} disabled={currentPage === totalPages}>Next</button>
-      </div>
+      
+     
+      <div className="join">
+        <button onClick={handlePrevPage} disabled={currentPage === 1} className="btn-info join-item btn">«</button>
+        <button className="join-item btn btn-success">{`Page ${currentPage} of ${totalPages}`}</button>
+        <button onClick={handleNextPage} disabled={currentPage === totalPages} className="btn-info join-item btn">»</button>
+    </div>
     </div>
   );
 };

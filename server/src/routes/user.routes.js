@@ -1,6 +1,6 @@
 import { Router } from "express";
 import passport from "passport";
-import { addUserByAdmin, assignRole, changeCurrentPassword, deleteUserByAdmin, forgotPassword, getAllUser, getCurrentUser, handleSocialLogin, logInUser, logoutUser, refreshAccessToken, resendEmailVerification, resetForgotPassword, updateProfile, updateUserAvatar, userRegistration, verifyEmail } from "../controllers/user.controller.js";
+import { addUserByAdmin, allUser, assignRole, changeCurrentPassword, deleteUserByAdmin, forgotPassword, getAllUser, getCurrentUser, handleSocialLogin, logInUser, logoutUser, refreshAccessToken, resendEmailVerification, resetForgotPassword, updateProfile, updateUserAvatar, userRegistration, verifyEmail } from "../controllers/user.controller.js";
 import { addUserViaAdminValidator, loginUserValidator, resetForgotPasswordValidator, udpateProfileValidator, userAssignRoleValidator, userChangeCurrentPasswordValidator, userForgotPasswordValidator, userRegisterValidators } from "../validators/user.validators.js"
 import { validate } from "../validators/validate.js"
 import { verifyJWT, verifyPermission } from "../middlewares/auth.middlewares.js";
@@ -31,6 +31,7 @@ router.route("/super-admin/assign-role/:userId").post(verifyJWT,verifyPermission
 router.route("/super-admin/add-user").post(verifyJWT,verifyPermission([userRolesEnum.SUPER_ADMIN]),addUserViaAdminValidator(),validate,addUserByAdmin)
 router.route("/super-admin/delete-user/:userId").delete(verifyJWT,verifyPermission([userRolesEnum.SUPER_ADMIN]),deleteUserByAdmin)
 router.route("/all-user").get(verifyJWT,verifyPermission([userRolesEnum.SUPER_ADMIN,userRolesEnum.ADMIN,userRolesEnum.MANAGER]),getAllUser)
+router.route("/all-users").get(verifyJWT,verifyPermission([userRolesEnum.SUPER_ADMIN,userRolesEnum.ADMIN,userRolesEnum.MANAGER]),allUser)
 
 
 router.route("/google").get(

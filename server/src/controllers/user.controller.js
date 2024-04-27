@@ -541,24 +541,18 @@ const getAllUser = AsyncHandler(async (req, res) => {
   const { page = 1, limit = 10 } = req.query;
 
   try {
-    // Count total users
+    
     const totalUsers = await User.countDocuments();
 
-    // Calculate total pages
+   
     const totalPages = Math.ceil(totalUsers / limit);
 
-    // Calculate pagination options for MongoDB aggregation
     const pipeline = [
-      // Match all users
       { $match: {} },
-      // Skip documents based on pagination
       { $skip: (page - 1) * limit },
-      // Limit the number of documents returned
       { $limit: parseInt(limit) },
-      // Your other aggregation stages, if any
     ];
 
-    // Execute the aggregation pipeline
     const allUserAggregate = await User.aggregate(pipeline);
 
     return res.status(200).json(
@@ -581,6 +575,20 @@ const getAllUser = AsyncHandler(async (req, res) => {
     );
   }
 });
+
+const allUser=AsyncHandler(async (req,res)=>{
+  const allUser=await User.find({});
+
+  return res
+           .status(200)
+           .json(
+            new ApiResponse(
+              200,
+              allUser,
+              "All User fetched Successfully"
+            )
+           )
+})
 
 const handleSocialLogin=AsyncHandler(async (req,res)=>{
   const user=await User.findById(req.user?._id)
@@ -623,5 +631,6 @@ export {
   updateUserAvatar,
   updateProfile,
   getAllUser,
-  handleSocialLogin
+  handleSocialLogin,
+  allUser
 };
