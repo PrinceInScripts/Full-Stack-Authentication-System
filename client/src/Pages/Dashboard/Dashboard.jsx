@@ -221,31 +221,35 @@ const DashboardOverview = () => {
       </div>
 
       <div className='mt-20'>
-      <h1 className='text-2xl font-bold font-serif'>All User </h1>
+      <h1 className='text-2xl font-bold font-serif'>
+        
+  {
+    isViewAllActive ? `All Users (${totalUsers})`
+    : isAllUserActive ? `All User (${userTotal})`
+    : isAdminActive ? `Admins (${adminTotal})`
+    : isSuperAdminActive ? `Super Admins (${superAdminTotal})`
+    : isManagerActive ? `Managers (${managerTotal})` 
+    : ''
+  }
+</h1>
     <div>
-     {/* <div className='flex gap-2'>
-       <button className='border-2 border-gray-400 px-4 py-1'>View All</button>
-       <button  className='border-2 border-gray-400 px-4 py-1'>All User</button>
-       <button  className='border-2 border-gray-400 px-4 py-1'>Admin</button>
-       <button  className='border-2 border-gray-400 px-4 py-1'>Super Admin</button>
-       <button  className='border-2 border-gray-400 px-4 py-1'>Manager</button>
-     </div> */}
-      <div className='flex justify-between items-center bg-gray-200 px-6 py-4'>
-        {/* Render buttons and set active states */}
-        <div className='bg-white text-center px-4 py-2 rounded-lg flex flex-col items-center'>
-          <button className={`border-2 border-gray-400 px-4 py-1 ${isViewAllActive ? 'bg-blue-500 text-white' : ''}`} onClick={() => { handleButtonClick('VIEW_ALL'); setIsViewAllActive(true); setIsAllUserActive(false); setIsAdminActive(false); setIsSuperAdminActive(false); setIsManagerAdminActive(false);}}>View All</button>
+     
+      <div className='flex gap-1 items-center py-4'>
+       
+        <div className=' text-center py-2 rounded-lg flex flex-col items-center'>
+          <button className={`border-2 rounded-lg border-gray-400 px-4 py-1 ${isViewAllActive ? 'bg-blue-500 text-white' : ''}`} onClick={() => { handleButtonClick('VIEW_ALL'); setIsViewAllActive(true); setIsAllUserActive(false); setIsAdminActive(false); setIsSuperAdminActive(false); setIsManagerAdminActive(false);}}>View All</button>
         </div>
-        <div className='bg-white text-center px-4 py-2 rounded-lg flex flex-col items-center'>
-          <button className={`border-2 border-gray-400 px-4 py-1 ${isAllUserActive ? 'bg-blue-500 text-white' : ''}`} onClick={() => { handleButtonClick('ALL_USER'); setIsAllUserActive(true); }}>All User</button>
+        <div className='bg-white text-center py-2 rounded-lg flex flex-col items-center'>
+          <button className={`border-2 rounded-lg border-gray-400 px-4 py-1 ${isAllUserActive ? 'bg-blue-500 text-white' : ''}`} onClick={() => { handleButtonClick('ALL_USER'); setIsAllUserActive(true); }}>All User</button>
         </div>
-        <div className='bg-white text-center px-4 py-2 rounded-lg flex flex-col items-center'>
-          <button className={`border-2 border-gray-400 px-4 py-1 ${isAdminActive ? 'bg-blue-500 text-white' : ''}`} onClick={() => { handleButtonClick('ADMIN'); setIsAdminActive(true); }}>Admin</button>
+        <div className='bg-white text-center py-2 rounded-lg flex flex-col items-center'>
+          <button className={`border-2 rounded-lg border-gray-400 px-4 py-1 ${isAdminActive ? 'bg-blue-500 text-white' : ''}`} onClick={() => { handleButtonClick('ADMIN'); setIsAdminActive(true); }}>Admin</button>
         </div>
-        <div className='bg-white text-center px-4 py-2 rounded-lg flex flex-col items-center'>
-          <button className={`border-2 border-gray-400 px-4 py-1 ${isSuperAdminActive ? 'bg-blue-500 text-white' : ''}`} onClick={() => { handleButtonClick('SUPERADMIN'); setIsSuperAdminActive(true); }}>Super Admin</button>
+        <div className='bg-white text-center py-2 rounded-lg flex flex-col items-center'>
+          <button className={`border-2 rounded-lg border-gray-400 px-4 py-1 ${isSuperAdminActive ? 'bg-blue-500 text-white' : ''}`} onClick={() => { handleButtonClick('SUPERADMIN'); setIsSuperAdminActive(true); }}>Super Admin</button>
         </div>
-        <div className='bg-white text-center px-4 py-2 rounded-lg flex flex-col items-center'>
-          <button className={`border-2 border-gray-400 px-4 py-1 ${isManagerActive ? 'bg-blue-500 text-white' : ''}`} onClick={() => { handleButtonClick('MANAGER'); setIsManagerAdminActive(true); }}>Manager</button>
+        <div className='bg-white text-center py-2 rounded-lg flex flex-col items-center'>
+          <button className={`border-2 rounded-lg border-gray-400 px-4 py-1 ${isManagerActive ? 'bg-blue-500 text-white' : ''}`} onClick={() => { handleButtonClick('MANAGER'); setIsManagerAdminActive(true); }}>Manager</button>
         </div>
       </div>
     </div>
