@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { allUser, getAllUser } from '../../redux/slice/authSlice';
 import { getMongoosePaginationOption, getPaginatePayload } from '../../helper/helpers';
+import DashTable from './DashTable';
 
 const DashboardOverview = () => {
     const userRole = useSelector((state) => state.auth.role);
@@ -98,9 +99,13 @@ const DashboardOverview = () => {
 
   return (
     <>
-    <div className='bg-blue-100 w-full min-h-screen px-40'>
-      <h1>Dashboard</h1>
-      <div className='flex justify-between items-center'>
+    <div className='bg-blue-100 w-full min-h-screen px-40 py-10'>
+      <div className='py-10'>
+      <h1 className='text-2xl font-bold font-serif'>Dashboard</h1>
+      <p className='text-gray-500 font-semibold font-sans'>Details of Users.....</p>
+      </div>
+     
+      <div className='flex justify-between items-center bg-gray-200 px-6 py-4'>
         <div className='bg-white text-center px-4 py-2 rounded-lg flex flex-col items-center'>
           <p className='font-sans font-semibold text-sm'>Total Users</p> 
           <p className='font-serif font-bold'>{totalUsers}</p>
@@ -124,20 +129,12 @@ const DashboardOverview = () => {
         
       </div>
 
-      <table className="w-full text-left text-sm font-light">
-      <thead className="text-xs uppercase text-black">
-        <tr>
-          <th className="py-3 px-6">Name</th>
-          <th className="py-3 px-6">Role</th>
-          <th className="py-3 px-6">Projects</th>
-          <th className="py-3 px-6">Status</th>
-          <th className="py-3 px-6">Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        
-      </tbody>
-    </table>
+      <div className='mt-20'>
+      <DashTable/>
+
+      </div>
+
+     
     </div>
 
    
