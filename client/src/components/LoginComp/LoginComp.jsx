@@ -48,7 +48,9 @@ function LoginComp() {
     try {
       const response = await dispatch(loginUser(loginDetails));
       
-      if (response?.payload?.data?.success) {
+      
+      if (response?.payload?.loggedInUser) {
+        navigate("/")
       }
     } catch (error) {
       toast.error(error?.response?.data?.message);
@@ -59,7 +61,7 @@ function LoginComp() {
     password: "",
     
       });
-      navigate("/")
+      
 
     }
     

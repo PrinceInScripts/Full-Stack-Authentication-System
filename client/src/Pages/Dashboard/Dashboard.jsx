@@ -70,8 +70,8 @@ const DashboardOverview = () => {
         limit: 10,
       });
   
-      const response =await dispatch(getAllUser(paginationOptions)) // Pass pagination options as payload
-      const response1 =await dispatch(allUser()) // Pass pagination options as payload
+      const response =await dispatch(getAllUser(paginationOptions)) 
+      const response1 =await dispatch(allUser()) 
      console.log(response);
       setUserList(response.payload.data.allUser)
       setAllUsers(response1.payload.data)
