@@ -225,7 +225,7 @@ const DashboardOverview = () => {
         
   {
     isViewAllActive ? `All Users (${totalUsers})`
-    : isAllUserActive ? `All User (${userTotal})`
+    : isAllUserActive ? `All User (${userTotal})` 
     : isAdminActive ? `Admins (${adminTotal})`
     : isSuperAdminActive ? `Super Admins (${superAdminTotal})`
     : isManagerActive ? `Managers (${managerTotal})` 
