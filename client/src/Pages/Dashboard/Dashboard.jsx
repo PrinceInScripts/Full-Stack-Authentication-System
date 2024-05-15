@@ -9,7 +9,7 @@ const DashboardOverview = () => {
     const [userList, setUserList] = useState([]);
     const [allUsers,setAllUsers]=useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(0);
+    const [totalPages, setTotalPages] = useState(0); 
     const [totalUsers,setTotalUsers]=useState(0);
     const [adminTotal,setAdminTotal]=useState(0);
     const [superAdminTotal,setSuperAdminTotal]=useState(0);
