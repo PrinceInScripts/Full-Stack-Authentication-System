@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { assignRole, getUserById } from '../../redux/slice/authSlice'
 import { toast } from 'react-toastify'
+import { CgProfile } from 'react-icons/cg'
 
 function OnAssignRole() {
     const dispatch=useDispatch()
@@ -41,36 +42,50 @@ function OnAssignRole() {
     if (!user) return <div>Loading...</div>;
 
   return (
-    <div className='bg-base-700 w-full min-h-screen px-40 py-10'>
-    <div className='py-10'>
+    <>
+   
+    
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+             <div className='py-5 flex items-start flex-col'>
       <h1 className='text-2xl font-bold font-serif'>Assign Role</h1>
       <p className='text-gray-500 font-semibold font-sans'>Assign a new role to the user</p>
     </div>
 
-    <div className='bg-white p-6 rounded-lg'>
-    
-      <h2 className='text-xl font-bold'>{user.username}</h2>
-      <p className='text-gray-700'>Email: {user.email}</p>
-      <p className='text-gray-700'>Current Role: {user.role}</p>
+      <div className=" p-8 rounded-lg  max-w-md w-full">
+        <div className="flex items-center justify-center">
+          {user?.avatar ? (
+            <img src={user.avatar} alt="User Avatar" className="w-24 h-24 rounded-full" />
+          ) : (
+            <CgProfile size={96} className="text-gray-500" />
+          )}
+        </div>
+        <h1 className="text-3xl font-bold text-center mt-4">{user.username}</h1>
+        <p className="text-gray-700 text-center mt-2">{user.email}</p>
+        <p className="text-gray-700 text-center mt-1">Current Role: {user.role}</p>
 
-      <div className='mt-6'>
-        <label className='block text-gray-700'>New Role</label>
-        <select value={newRole} onChange={handleRoleChange} className='block w-full mt-2 p-2 border rounded'>
-          <option value="USER">User</option>
-          <option value="ADMIN">Admin</option>
-          <option value="SUPER_ADMIN">Super Admin</option>
-          <option value="MANAGER">Manager</option>
-        </select>
+        <div className="mt-6">
+          <label className="block text-gray-700">New Role</label>
+          <select
+            value={newRole}
+            onChange={handleRoleChange}
+            className="block w-full mt-2 p-2 border rounded-lg focus:ring focus:ring-blue-300"
+          >
+            <option value="USER">User</option>
+            <option value="ADMIN">Admin</option>
+            <option value="SUPER_ADMIN">Super Admin</option>
+            <option value="MANAGER">Manager</option>
+          </select>
+        </div>
+
+        <button
+          onClick={handleRoleUpdate}
+          className="mt-6 bg-blue-500 text-white w-full py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+        >
+          Update Role
+        </button>
       </div>
-
-      <button 
-        onClick={handleRoleUpdate}
-        className='mt-6 bg-blue-500 text-white px-4 py-2 rounded-lg'
-      >
-        Update Role
-      </button>
     </div>
-  </div>
+    </>
   )
 }
 
