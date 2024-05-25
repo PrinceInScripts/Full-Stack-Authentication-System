@@ -1,66 +1,3 @@
-// import { Router } from "express";
-// import passport from "passport";
-// import { addUserByAdmin, allUser, assignRole, changeCurrentPassword, deleteUserByAdmin, forgotPassword, getAllUser, getCurrentUser, getUserById, handleSocialLogin, logInUser, logoutUser, refreshAccessToken, resendEmailVerification, resetForgotPassword, updateProfile, updateUserAvatar, userRegistration, verifyEmail } from "../controllers/user.controller.js";
-// import { addUserViaAdminValidator, loginUserValidator, resetForgotPasswordValidator, udpateProfileValidator, userAssignRoleValidator, userChangeCurrentPasswordValidator, userForgotPasswordValidator, userRegisterValidators } from "../validators/user.validators.js"
-// import { validate } from "../validators/validate.js"
-// import { verifyJWT, verifyPermission } from "../middlewares/auth.middlewares.js";
-// import { userRolesEnum } from "../constant.js";
-// import { mongoIdPathVariableValidator } from "../validators/mongoose.validators.js";
-// import { upload } from "../middlewares/multer.middlewares.js";
-// import "../passport/index.js"
-
-// const router=Router();
-
-// router.route('/register').post(userRegisterValidators(),validate,userRegistration)
-// router.route("/login").post(loginUserValidator(),validate,logInUser)
-// router.route("/verify-email/:verificationToken").get(verifyEmail)
-// router.route("/refresh-token").post(refreshAccessToken)
-// router.route("/forgot-password").post(userForgotPasswordValidator(),validate,forgotPassword)
-// router.route("/reset-password/:resetPasswordToken").post(resetForgotPasswordValidator(),validate,resetForgotPassword)
-
-
-// router.route("/logout").post(verifyJWT,logoutUser)
-// router.route("/resend-email-verification").post(verifyJWT,resendEmailVerification)
-
-// router.route("/change-password").post(verifyJWT,userChangeCurrentPasswordValidator(),validate,changeCurrentPassword)
-// router.route("/current-user").get(verifyJWT,getCurrentUser)
-// router.route("/avatar").post(verifyJWT,upload.single('avatar'),updateUserAvatar)
-// router.route("/update-profile").post(verifyJWT,udpateProfileValidator(),validate,updateProfile)
-// // router.route("//:userId").post(verifyJWT,verifyPermission([userRolesEnum.ADMIN]),mongoIdPathVariableValidator("userId"),userAssignRoleValidator(),validate,assignRole)
-// router.route("/:userId").get(verifyJWT,mongoIdPathVariableValidator("userId"),validate,getUserById)
-// router.route("/assign-role/:userId").post(verifyJWT,verifyPermission([userRolesEnum.SUPER_ADMIN,userRolesEnum.ADMIN]),mongoIdPathVariableValidator("userId"),userAssignRoleValidator(),validate,assignRole)
-// router.route("/super-admin/add-user").post(verifyJWT,verifyPermission([userRolesEnum.SUPER_ADMIN]),addUserViaAdminValidator(),validate,addUserByAdmin)
-// router.route("/super-admin/delete-user/:userId").delete(verifyJWT,verifyPermission([userRolesEnum.SUPER_ADMIN]),deleteUserByAdmin)
-// router.route("/all-user").get(verifyJWT,verifyPermission([userRolesEnum.SUPER_ADMIN,userRolesEnum.ADMIN,userRolesEnum.MANAGER]),getAllUser)
-// router.route("/all-users").get(verifyJWT,verifyPermission([userRolesEnum.SUPER_ADMIN,userRolesEnum.ADMIN,userRolesEnum.MANAGER]),allUser)
-
-
-// router.route("/google").get(
-//     passport.authenticate('google',{scope:["profile","email"]}),
-//     (req,res)=>res.send("redirecting to google.....")
-// )
-// router.route("/github").get(
-//     passport.authenticate('github',{scope:["profile","email"]}),
-//     (req,res)=>res.send("redirecting to github.....")
-// )
-
-// // router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
-
-// // router
-// //   .route("/google/callback")
-// //   .get(passport.authenticate("google"), handleSocialLogin);
-
-// router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
-//   // Redirect user to frontend URL after successful authentication
-//   res.redirect('http://localhost:3000'); // Replace with your frontend URL
-// });
-
-// router
-//   .route("/github/callback")
-//   .get(passport.authenticate("github"), handleSocialLogin);
-
-// export default router;
-
 import { Router } from "express";
 import passport from "passport";
 import { 
@@ -100,21 +37,13 @@ router.route("/change-password").post(verifyJWT, userChangeCurrentPasswordValida
 router.route("/current-user").get(verifyJWT, getCurrentUser);
 router.route("/avatar").post(verifyJWT, upload.single('avatar'), updateUserAvatar);
 router.route("/update-profile").post(verifyJWT, udpateProfileValidator(), validate, updateProfile);
-router.route("/:userId").get(verifyJWT, mongoIdPathVariableValidator("userId"), validate, getUserById);
-router.route("/assign-role/:userId").post(verifyJWT, verifyPermission([userRolesEnum.SUPER_ADMIN, userRolesEnum.ADMIN]), mongoIdPathVariableValidator("userId"), userAssignRoleValidator(), validate, assignRole);
+router.route("/:userId([0-9a-fA-F]{24})").get(verifyJWT, mongoIdPathVariableValidator("userId"), validate, getUserById);
+    router.route("/assign-role/:userId").post(verifyJWT, verifyPermission([userRolesEnum.SUPER_ADMIN, userRolesEnum.ADMIN]), mongoIdPathVariableValidator("userId"), userAssignRoleValidator(), validate, assignRole);
 router.route("/super-admin/add-user").post(verifyJWT, verifyPermission([userRolesEnum.SUPER_ADMIN]), addUserViaAdminValidator(), validate, addUserByAdmin);
 router.route("/super-admin/delete-user/:userId").delete(verifyJWT, verifyPermission([userRolesEnum.SUPER_ADMIN]), mongoIdPathVariableValidator("userId"), validate, deleteUserByAdmin);
 router.route("/all-user").get(verifyJWT, verifyPermission([userRolesEnum.SUPER_ADMIN, userRolesEnum.ADMIN, userRolesEnum.MANAGER]), getAllUser);
 router.route("/all-users").get(verifyJWT, verifyPermission([userRolesEnum.SUPER_ADMIN, userRolesEnum.ADMIN, userRolesEnum.MANAGER]), allUser);
-// router.route("/all-users").get(
-//   (req, res, next) => {
-//       console.log("Accessing /all-users route");
-//       next();
-//   }, 
-//   verifyJWT, 
-//   verifyPermission([userRolesEnum.SUPER_ADMIN, userRolesEnum.ADMIN, userRolesEnum.MANAGER]),
-//   allUser
-// );
+
 
 // OAuth routes
 router.route("/google").get(
@@ -131,3 +60,20 @@ router.get('/google/callback', passport.authenticate('google', { failureRedirect
 router.route("/github/callback").get(passport.authenticate("github"), handleSocialLogin);
 
 export default router;
+
+// // router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+// // router
+// //   .route("/google/callback")
+// //   .get(passport.authenticate("google"), handleSocialLogin);
+
+// router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
+//   // Redirect user to frontend URL after successful authentication
+//   res.redirect('http://localhost:3000'); // Replace with your frontend URL
+// });
+
+// router
+//   .route("/github/callback")
+//   .get(passport.authenticate("github"), handleSocialLogin);
+
+// export default router;
