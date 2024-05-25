@@ -76,4 +76,3 @@ export default router;
 //   .route("/github/callback")
 //   .get(passport.authenticate("github"), handleSocialLogin);
 
-// export default router;
