@@ -13,6 +13,7 @@ import EmailVerification from "./Pages/EmailVerification/EmailVerification";
 import Profiles from "./Pages/Profile/Profiles";
 import ProfileComp from "./components/ProfileComp/ProfileComp";
 import Dashboard from "./Pages/Dashboard/Dashboard";
+import AssignRole from "./components/AssignRoleComp/AssignRole";
 // import DashboardOverview from "./Pages/Dashboard/Dashboard";
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
       <Route path="/verify-email/:verificationToken" element={<EmailVerification/>}/>
       <Route path="/me" element={<Profiles/>}/>
       <Route path="/dashboard" element={<Dashboard/>}/>
+      <Route path="/assign-role" element={<AssignRole/>}/>
       {/* <Route path="/dashboard" element={<DashboardOverview/>}/> */}
     </Routes>
   );

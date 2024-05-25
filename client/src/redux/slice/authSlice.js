@@ -216,6 +216,16 @@ export const allUser = createAsyncThunk(
   }
 );
 
+export const assignRole=createAsyncThunk('users/assignRole',async(userId,thunkAPI)=>{
+  try {
+    const response=await axiosInstance(`/users/admin/assign-role/:${userId}`)
+    console.log(response)
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.message,data)
+  }
+})
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
