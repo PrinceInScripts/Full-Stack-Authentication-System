@@ -31,6 +31,7 @@ function App() {
       <Route path="/me" element={<Profiles/>}/>
       <Route path="/dashboard" element={<Dashboard/>}/>
       <Route path="/assign-role" element={<AssignRole/>}/>
+      <Route path="/assign-role/:userId" element={<AssignRole/>}/>
       {/* <Route path="/dashboard" element={<DashboardOverview/>}/> */}
     </Routes>
   );
