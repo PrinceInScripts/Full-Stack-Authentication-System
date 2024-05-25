@@ -216,9 +216,18 @@ export const allUser = createAsyncThunk(
   }
 );
 
-export const assignRole=createAsyncThunk('users/assignRole',async(userId,thunkAPI)=>{
+export const getUserById=createAsyncThunk('users/getUserByIc',async(userId,thunkAPI)=>{
   try {
-    const response=await axiosInstance(`/users/admin/assign-role/:${userId}`)
+    const response=await axiosInstance(`/:${userId}`)
+    console.log(response)
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.message.data)
+  }
+})
+export const assignRole=createAsyncThunk('users/assignRole',async({userId,newRole},thunkAPI)=>{
+  try {
+    const response=await axiosInstance(`/users/assign-role/:${userId}`,newRole)
     console.log(response)
     return response.data;
   } catch (error) {

@@ -388,7 +388,7 @@ const changeCurrentPassword = AsyncHandler(async (req, res) => {
 
 const assignRole = AsyncHandler(async (req, res) => {
   const { userId } = req.params;
-  const { role } = req.body;
+  const { newRole } = req.body;
 
   const user = await User.findById(userId);
 
@@ -396,7 +396,7 @@ const assignRole = AsyncHandler(async (req, res) => {
     throw new ApiError(401, "User does not existed");
   }
 
-  user.role = role;
+  user.role = newRole;
   await user.save({ validateBeforeSave: false });
 
   return res
