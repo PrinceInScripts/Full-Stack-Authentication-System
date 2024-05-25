@@ -577,7 +577,9 @@ const getAllUser = AsyncHandler(async (req, res) => {
 });
 
 const allUser=AsyncHandler(async (req,res)=>{
+  console.log("hi");
   const allUser=await User.find({});
+  console.log(allUser);
 
   return res
            .status(200)

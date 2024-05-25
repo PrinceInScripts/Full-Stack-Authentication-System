@@ -65,7 +65,9 @@ function AssignRole() {
     };
 
     const handleUserClick = (user) => {
-        navigate(`/assign-role/${user.id}`);
+        console.log(user);
+        console.log(user._id);
+        navigate(`/assign-role/${user._id}`);
     };
 
   return (

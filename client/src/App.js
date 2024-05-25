@@ -14,6 +14,7 @@ import Profiles from "./Pages/Profile/Profiles";
 import ProfileComp from "./components/ProfileComp/ProfileComp";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import AssignRole from "./components/AssignRoleComp/AssignRole";
+import OnAssignRole from "./components/AssignRoleComp/OnAssignRole";
 // import DashboardOverview from "./Pages/Dashboard/Dashboard";
 
 function App() {
@@ -31,7 +32,7 @@ function App() {
       <Route path="/me" element={<Profiles/>}/>
       <Route path="/dashboard" element={<Dashboard/>}/>
       <Route path="/assign-role" element={<AssignRole/>}/>
-      <Route path="/assign-role/:userId" element={<AssignRole/>}/>
+      <Route path="/assign-role/:userId" element={<OnAssignRole/>}/>
       {/* <Route path="/dashboard" element={<DashboardOverview/>}/> */}
     </Routes>
   );

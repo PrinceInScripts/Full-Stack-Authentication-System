@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { User } from '../../../../server/src/models/user.models'
 import { assignRole, getUserById } from '../../redux/slice/authSlice'
 import { toast } from 'react-toastify'
 
@@ -19,9 +18,10 @@ function OnAssignRole() {
 
     const fetchUserDetails=async()=>{
         const response=await dispatch(getUserById(userId));
-        if(response.payload.data){
-            setUser(response.payload.data)
-            setNewRole(response.payload.data.role)
+        console.log(response);
+        if(response?.payload?.data){
+            setUser(response?.payload?.data)
+            setNewRole(response?.payload?.data.role)
         }
     }
 

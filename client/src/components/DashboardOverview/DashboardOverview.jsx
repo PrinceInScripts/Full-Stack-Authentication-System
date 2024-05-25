@@ -38,8 +38,8 @@ const DashboardOverview = () => {
 
     const fetchUsers = async () => {
       const filteredUsers = filterUsersByRole(allUsers, activeRole);
-        setTotalUsers(filteredUsers.length);
-        setTotalPages(Math.ceil(filteredUsers.length / 10));
+        setTotalUsers(filteredUsers?.length);
+        setTotalPages(Math.ceil(filteredUsers?.length / 10));
         const paginatedUsers = paginateUsers(filteredUsers, currentPage, 10);
         setUserList(paginatedUsers);
 
@@ -50,7 +50,7 @@ const DashboardOverview = () => {
     const paginateUsers = (users, page, limit) => {
       const start = (page - 1) * limit;
       const end = start + limit;
-      return users.slice(start, end);
+      return users?.slice(start, end);
   };
     
 
@@ -58,7 +58,7 @@ const DashboardOverview = () => {
         if (role === 'VIEW_ALL') {
             return users;
         }
-        return users.filter(user => user.role === role);
+        return users?.filter(user => user?.role === role);
     };
 
     const calculateRoleTotals = (users) => {
@@ -67,7 +67,7 @@ const DashboardOverview = () => {
             managerCount = 0,
             userCount = 0;
 
-        users.forEach((user) => {
+        users?.forEach((user) => {
             switch (user.role) {
                 case "ADMIN":
                     adminCount++;
@@ -90,7 +90,7 @@ const DashboardOverview = () => {
         setSuperAdminTotal(superAdminCount);
         setManagerTotal(managerCount);
         setUserTotal(userCount);
-        setTotalUsers(users.length);
+        setTotalUsers(users?.length);
     };
 
     const handleNextPage = () => {
@@ -175,7 +175,7 @@ const DashboardOverview = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {userList.map((user, index) => (
+                        {userList?.map((user, index) => (
                             <tr key={index} className={index % 2 === 0 ? 'bg-blue-200 border border-gray-400' : 'bg-gray-200 border border-gray-400'}>
                                 <td className='px-4 py-4 text-lg font-semibold font-sans'>@{user.username}</td>
                                 <td className='px-4 py-4 font-normal text-black font-serif'>{user.email}</td>

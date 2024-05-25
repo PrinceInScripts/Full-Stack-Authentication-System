@@ -209,6 +209,7 @@ export const allUser = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await axiosInstance.get(`/users/all-users`);
+      console.log(response);
       return response.data; 
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -218,7 +219,7 @@ export const allUser = createAsyncThunk(
 
 export const getUserById=createAsyncThunk('users/getUserByIc',async(userId,thunkAPI)=>{
   try {
-    const response=await axiosInstance(`/:${userId}`)
+    const response=await axiosInstance.get(`/users/${userId}`)
     console.log(response)
     return response.data;
   } catch (error) {
@@ -227,7 +228,7 @@ export const getUserById=createAsyncThunk('users/getUserByIc',async(userId,thunk
 })
 export const assignRole=createAsyncThunk('users/assignRole',async({userId,newRole},thunkAPI)=>{
   try {
-    const response=await axiosInstance(`/users/assign-role/:${userId}`,newRole)
+    const response=await axiosInstance(`/users/assign-role/${userId}`,newRole)
     console.log(response)
     return response.data;
   } catch (error) {
@@ -342,7 +343,31 @@ const authSlice = createSlice({
       .addCase(allUser.fulfilled, (state, action) => {
         state.allUser = action.payload;
         localStorage.setItem("allUser", JSON.stringify(action.payload)); 
-      });
+      })
+      .addCase(getUserById.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(getUserById.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.selectedUser = action.payload; // Store the selected user's details in state
+      })
+      .addCase(getUserById.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(assignRole.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(assignRole.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.selectedUser = action.payload; // Update the selected user's details in state
+      })
+      .addCase(assignRole.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
   },
 });
 
