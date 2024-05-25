@@ -222,7 +222,7 @@ export const assignRole=createAsyncThunk('users/assignRole',async(userId,thunkAP
     console.log(response)
     return response.data;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error.message,data)
+    return thunkAPI.rejectWithValue(error.message.data)
   }
 })
 
