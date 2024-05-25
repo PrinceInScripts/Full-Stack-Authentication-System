@@ -10,7 +10,7 @@ function Navbar() {
   const isLoggedIn = useSelector((state) => state?.auth?.isLoggedIn);
   const isAdmin = useSelector((state) => state?.auth?.isAdmin);
   const isSuperAdmin = useSelector((state) => state?.auth?.isSuperAdmin);
-  const user=useSelector((state)=>state?.auth?.user)
+  const user=useSelector((state)=>state?.auth?.user) 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -36,11 +36,6 @@ function Navbar() {
       });
   };
 
-  useEffect(() => {
-    console.log(isLoggedIn);
-    console.log(isAdmin);
-    console.log(isSuperAdmin);
-  }, []);
 
   return (
     <div className="navbar bg-base-200 z-10 fixed w-full">
