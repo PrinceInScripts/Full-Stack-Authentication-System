@@ -38,7 +38,7 @@ router.route("/current-user").get(verifyJWT, getCurrentUser);
 router.route("/avatar").post(verifyJWT, upload.single('avatar'), updateUserAvatar);
 router.route("/update-profile").post(verifyJWT, udpateProfileValidator(), validate, updateProfile);
 router.route("/:userId([0-9a-fA-F]{24})").get(verifyJWT, mongoIdPathVariableValidator("userId"), validate, getUserById);
-    router.route("/assign-role/:userId").post(verifyJWT, verifyPermission([userRolesEnum.SUPER_ADMIN, userRolesEnum.ADMIN]), mongoIdPathVariableValidator("userId"), userAssignRoleValidator(), validate, assignRole);
+router.route("/assign-role/:userId").post(verifyJWT, verifyPermission([userRolesEnum.SUPER_ADMIN, userRolesEnum.ADMIN]), mongoIdPathVariableValidator("userId"), userAssignRoleValidator(), validate, assignRole);
 router.route("/super-admin/add-user").post(verifyJWT, verifyPermission([userRolesEnum.SUPER_ADMIN]), addUserViaAdminValidator(), validate, addUserByAdmin);
 router.route("/super-admin/delete-user/:userId").delete(verifyJWT, verifyPermission([userRolesEnum.SUPER_ADMIN]), mongoIdPathVariableValidator("userId"), validate, deleteUserByAdmin);
 router.route("/all-user").get(verifyJWT, verifyPermission([userRolesEnum.SUPER_ADMIN, userRolesEnum.ADMIN, userRolesEnum.MANAGER]), getAllUser);

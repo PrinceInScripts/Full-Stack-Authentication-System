@@ -5,10 +5,6 @@ export const mongoIdPathVariableValidator = (idName) => [
         .notEmpty()
         .isMongoId()
         .withMessage(`Invalid ${idName}`)
-        .custom(value => {
-            console.log(`Validating ${idName}: ${value}`);  // Debug log
-            return true;
-        })
 ];
 
 export const mongoIdBodyValidator=(idName)=>{

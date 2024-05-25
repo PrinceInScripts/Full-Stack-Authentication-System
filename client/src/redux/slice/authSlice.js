@@ -228,8 +228,7 @@ export const getUserById=createAsyncThunk('users/getUserByIc',async(userId,thunk
 })
 export const assignRole=createAsyncThunk('users/assignRole',async({userId,newRole},thunkAPI)=>{
   try {
-    const response=await axiosInstance(`/users/assign-role/${userId}`,newRole)
-    console.log(response)
+    const response = await axiosInstance.post(`/users/assign-role/${userId}`, { role: newRole });    console.log(response)
     return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.message.data)

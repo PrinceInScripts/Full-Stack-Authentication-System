@@ -14,7 +14,7 @@ function OnAssignRole() {
     
     useEffect(()=>{
         fetchUserDetails();
-    },[userId])
+    },[userId,dispatch])
 
     const fetchUserDetails=async()=>{
         const response=await dispatch(getUserById(userId));
@@ -31,7 +31,7 @@ function OnAssignRole() {
 
     const handleRoleUpdate=async ()=>{
         const response=await dispatch(assignRole({userId,newRole}))
-        if (response.payload.success) {
+                if (response.payload.success) {
             navigate('/assign-role');
           } else {
             toast.error('Failed to update role');
@@ -48,6 +48,7 @@ function OnAssignRole() {
     </div>
 
     <div className='bg-white p-6 rounded-lg'>
+    
       <h2 className='text-xl font-bold'>{user.username}</h2>
       <p className='text-gray-700'>Email: {user.email}</p>
       <p className='text-gray-700'>Current Role: {user.role}</p>
