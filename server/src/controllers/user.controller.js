@@ -589,6 +589,20 @@ const allUser=AsyncHandler(async (req,res)=>{
             )
            )
 })
+const getUserById=AsyncHandler(async (req,res)=>{
+  const {userId}=req.params;
+  const user=await User.findById(userId)
+
+  return res
+           .status(200)
+           .json(
+            new ApiResponse(
+              200,
+              user,
+              "User fetched Successfully"
+            )
+           )
+})
 
 const handleSocialLogin=AsyncHandler(async (req,res)=>{
   const user=await User.findById(req.user?._id)
@@ -632,5 +646,6 @@ export {
   updateProfile,
   getAllUser,
   handleSocialLogin,
-  allUser
+  allUser,
+  getUserById
 };
